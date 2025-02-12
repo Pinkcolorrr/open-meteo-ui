@@ -13,7 +13,7 @@ export function TodayForecast() {
   if (isLoading) {
     return (
       <Skeleton
-        className={clsx("h-[208px] mx-[24px]", { "w-[734px]": !isMobile, "w-[320px]": isMobile })}
+        className={clsx("h-[208px] mx-[24px] w-[734px] shrink-0", { "w-[100%]": isMobile })}
       />
     );
   }

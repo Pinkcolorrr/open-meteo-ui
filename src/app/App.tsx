@@ -15,16 +15,18 @@ function App() {
       <Sidebar>
         <LocationSelect />
       </Sidebar>
-      <main className={"flex flex-col items-center gap-10 relative w-full p-10"}>
+      <main className={"relative w-full overflow-hidden"}>
         <SidebarTrigger className={"absolute top-4 left-4"} />
         {error ? (
           "Weather service is not available."
         ) : (
-          <>
+          <section
+            className={"flex flex-col items-center gap-10 p-10 w-full overflow-auto max-h-[100vh]"}
+          >
             <CurrentWeather />
             <TodayForecast />
             <FutureWeather />
-          </>
+          </section>
         )}
       </main>
     </>

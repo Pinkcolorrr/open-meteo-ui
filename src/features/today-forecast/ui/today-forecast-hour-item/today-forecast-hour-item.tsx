@@ -17,7 +17,7 @@ export function TodayForecastHourItem(params: TodayForecastViewModel) {
 
   useEffect(() => {
     if (isNow) {
-      ref.current?.scrollIntoView({ behavior: "smooth", inline: "center" });
+      ref.current?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
   }, [ref, isNow]);
 

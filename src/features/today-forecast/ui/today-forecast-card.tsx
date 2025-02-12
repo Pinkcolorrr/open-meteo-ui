@@ -20,29 +20,27 @@ export function TodayForecastCard({ viewModel }: { viewModel: TodayForecastViewM
   };
 
   return (
-    <div className={"w-fit flex items-center"}>
-      <button onClick={scrollLeft}>
-        <ChevronLeft />
-      </button>
-      <Card title="TodayForecastCard">
+    <div className={clsx("w-full flex items-center justify-center", { "w-full": isMobile })}>
+      {!isMobile && (
+        <button onClick={scrollLeft}>
+          <ChevronLeft />
+        </button>
+      )}
+      <Card title="TodayForecastCard" className={"flex-grow max-w-[734px] overflow-hidden"}>
         <CardHeader>
           <CardTitle>Today forecast</CardTitle>
         </CardHeader>
-        <CardContent
-          className={clsx("flex gap-4 max-w-[700px] overflow-x-auto no-scrollbar pb-0", {
-            "max-w-[700px]": !isMobile,
-            "max-w-[300px]": isMobile,
-          })}
-          ref={scrollRef}
-        >
+        <CardContent className={"flex gap-4 overflow-x-auto no-scrollbar pb-0"} ref={scrollRef}>
           {viewModel.map((model) => (
             <TodayForecastHourItem key={model.hour} {...model} />
           ))}
         </CardContent>
       </Card>
-      <button onClick={scrollRight}>
-        <ChevronRight />
-      </button>
+      {!isMobile && (
+        <button onClick={scrollRight}>
+          <ChevronRight />
+        </button>
+      )}
     </div>
   );
 }

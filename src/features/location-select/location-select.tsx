@@ -44,13 +44,17 @@ export function LocationSelect() {
   };
 
   return (
-    <div className={"p-4"}>
+    <div className={"p-4 overflow-auto"}>
       <Input placeholder={"Location name"} onInput={(event) => search(event.currentTarget.value)} />
       {userLocation && (
-        <LocationItem {...userLocation} title={"current"} isActive={isUserLocation} />
+        <button className={"w-full text-start"}>
+          <LocationItem {...userLocation} title={"current"} isActive={isUserLocation} />
+        </button>
       )}
       {!isUserLocation && currentLocation && (
-        <LocationItem {...currentLocation} title={"active"} isActive={true} />
+        <button className={"w-full text-start"}>
+          <LocationItem {...currentLocation} title={"active"} isActive={true} />
+        </button>
       )}
       {isFetching && <SkeletonLocationList />}
       {searchResults?.results && !isFetching && (
