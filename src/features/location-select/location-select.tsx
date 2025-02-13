@@ -2,7 +2,7 @@ import { openMeteoGeoApi, OpenMeteoGeoResponse } from "@domain/open-meteo";
 import { useDebounceValue } from "@shared/hooks/use-debounce-value.tsx";
 import { Input } from "@shared/ui/input.tsx";
 import { Frown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 import { LocationList } from "./ui/location-list/location-list.tsx";
@@ -15,6 +15,10 @@ export function LocationSelect() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounceValue<string>(query);
+  const viewModel = useMemo(
+    () => (searchResults?.results ? toViewModel(searchResults?.results) : []),
+    [searchResults],
+  );
 
   useEffect(() => {
     search(debouncedQuery);
@@ -31,24 +35,27 @@ export function LocationSelect() {
     }
   };
 
-  const onLocationSelect = (location: LocationViewModelItem) => {
-    const data = searchResults?.results.find((item) => item.id === location.id);
-    if (data) {
-      navigate({
-        pathname: "",
-        search: createSearchParams({
-          lat: data.latitude.toString(),
-          lon: data.longitude.toString(),
-        }).toString(),
-      });
-    }
-  };
+  const onLocationSelect = useCallback(
+    (location: LocationViewModelItem) => {
+      const data = searchResults?.results.find((item) => item.id === location.id);
+      if (data) {
+        navigate({
+          pathname: "",
+          search: createSearchParams({
+            lat: data.latitude.toString(),
+            lon: data.longitude.toString(),
+          }).toString(),
+        });
+      }
+    },
+    [searchResults],
+  );
 
   return (
     <div className={"p-4 overflow-auto"}>
       {isFetching && <SkeletonLocationList />}
       {searchResults?.results && !isFetching && query.length > 1 && (
-        <LocationList viewModel={toViewModel(searchResults)} onLocationSelect={onLocationSelect} />
+        <LocationList viewModel={viewModel} onLocationSelect={onLocationSelect} />
       )}
       {searchResults && !searchResults.results && (
         <div className={"my-2"}>

@@ -1,8 +1,15 @@
 import { clsx } from "clsx";
+import { memo } from "react";
 
 import { LocationItemProps } from "./location-item-props.ts";
 
-export function LocationItem({ country, countryCode, name, title, isActive }: LocationItemProps) {
+export function LocationItemComponent({
+  country,
+  countryCode,
+  name,
+  title,
+  isActive,
+}: LocationItemProps) {
   return (
     <div
       className={clsx("p-2 bg-gray-300 rounded-lg", {
@@ -16,3 +23,6 @@ export function LocationItem({ country, countryCode, name, title, isActive }: Lo
     </div>
   );
 }
+
+export const LocationItem = memo(LocationItemComponent);
+LocationItem.displayName = "LocationItem";

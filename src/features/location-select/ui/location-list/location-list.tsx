@@ -1,7 +1,9 @@
+import { memo } from "react";
+
 import { LocationListItem } from "./location-list-item.tsx";
 import { LocationListProps } from "./location-list-props.ts";
 
-export function LocationList({ viewModel, onLocationSelect }: LocationListProps) {
+function LocationListComponent({ viewModel, onLocationSelect }: LocationListProps) {
   return (
     <ul>
       {viewModel.map((location) => (
@@ -17,3 +19,6 @@ export function LocationList({ viewModel, onLocationSelect }: LocationListProps)
     </ul>
   );
 }
+
+export const LocationList = memo(LocationListComponent);
+LocationList.displayName = "LocationList";

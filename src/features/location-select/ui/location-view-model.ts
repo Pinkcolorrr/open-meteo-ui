@@ -1,4 +1,4 @@
-import { OpenMeteoGeoResponse } from "@domain/open-meteo";
+import { OpenMeteoGeoData } from "@domain/open-meteo";
 
 export interface LocationViewModelItem {
   name: string;
@@ -8,8 +8,8 @@ export interface LocationViewModelItem {
   id: number;
 }
 
-export const toViewModel = (data: OpenMeteoGeoResponse): LocationViewModelItem[] => {
-  return data.results.map((location) => ({
+export const toViewModel = (data: OpenMeteoGeoData[]): LocationViewModelItem[] => {
+  return data.map((location) => ({
     id: location.id,
     name: location.name,
     country: location.country,
