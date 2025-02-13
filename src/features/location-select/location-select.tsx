@@ -1,7 +1,9 @@
 import { openMeteoGeoApi, OpenMeteoGeoResponse } from "@domain/open-meteo";
+import { LocationItem } from "@features/location-select/ui/location-item/location-item.tsx";
 import { useDebounce } from "@shared/hooks/use-debounce";
+import { Coords } from "@shared/models/coords.ts";
 import { Input } from "@shared/ui/input.tsx";
-import { useCurrentLocation, useUserGeoLocation } from "@shared/utils/geo-location";
+import { useActiveLocation, useCurrentGeoLocation } from "@shared/utils/geo-location";
 import { Frown } from "lucide-react";
 import { useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
@@ -9,13 +11,12 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 import { LocationList } from "./ui/location-list.tsx";
 import { LocationViewModelItem, toViewModel } from "./ui/location-view-model.ts";
 import { SkeletonLocationList } from "./ui/skeleton-location-list.tsx";
-import { UserLocation } from "./ui/user-location.tsx";
 
 export function LocationSelect() {
   const [getLocations, { isFetching, isSuccess }] = openMeteoGeoApi.useLazySearchLocationQuery();
   const [searchResults, setSearchResults] = useState<OpenMeteoGeoResponse>();
-  const { location: userLocation } = useUserGeoLocation();
-  const { location: currentLocation } = useCurrentLocation();
+  const { location: userLocation } = useCurrentGeoLocation();
+  const { location: currentLocation, isUserLocation } = useActiveLocation();
   const navigate = useNavigate();
 
   const search = useDebounce(async (value: string) => {
@@ -25,24 +26,32 @@ export function LocationSelect() {
     }
   });
 
+  const navigateToLocation = ({ lat, lon }: Coords) => {
+    navigate({
+      pathname: "",
+      search: createSearchParams({
+        lat: lat.toString(),
+        lon: lon.toString(),
+      }).toString(),
+    });
+  };
+
   const onLocationSelect = (location: LocationViewModelItem) => {
     const data = searchResults?.results.find((item) => item.id === location.id);
     if (data) {
-      navigate({
-        pathname: "",
-        search: createSearchParams({
-          lat: data.latitude.toString(),
-          lon: data.longitude.toString(),
-        }).toString(),
-      });
+      navigateToLocation({ lon: data.longitude, lat: data.latitude });
     }
   };
 
   return (
     <div className={"p-4"}>
       <Input placeholder={"Location name"} onInput={(event) => search(event.currentTarget.value)} />
-      {userLocation && <UserLocation {...userLocation} />}
-      {currentLocation && <UserLocation {...currentLocation} />}
+      {userLocation && (
+        <LocationItem {...userLocation} title={"current"} isActive={isUserLocation} />
+      )}
+      {!isUserLocation && currentLocation && (
+        <LocationItem {...currentLocation} title={"active"} isActive={true} />
+      )}
       {isFetching && <SkeletonLocationList />}
       {searchResults?.results && !isFetching && (
         <LocationList viewModel={toViewModel(searchResults)} onLocationSelect={onLocationSelect} />

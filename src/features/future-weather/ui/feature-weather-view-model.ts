@@ -23,6 +23,6 @@ export function toViewModel(
     minTemperature: Math.round(data.daily.temperature_2m_min[index]),
     rain: data.daily.rain_sum[index] || data.daily.showers_sum[index],
     snow: data.daily.snowfall_sum[index],
-    precipitation: Math.round(data.daily.precipitation_sum[index] * 100),
+    precipitation: Math.round(data.daily.precipitation_probability_max[index]),
   }));
 }

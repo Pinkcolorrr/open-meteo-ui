@@ -13,11 +13,15 @@ export interface CurrentWeatherViewModel {
   clouds: number;
   rain: number;
   snow: number;
+  isUserLocation: boolean;
+  date: Date;
 }
 
 export function toViewModel(
   data: WeatherData<HourlyVariable, DailyVariable, CurrentVariable>,
   city: string,
+  isUserLocation: boolean,
+  date: Date,
 ): CurrentWeatherViewModel {
   return {
     location: city ?? "",
@@ -27,5 +31,7 @@ export function toViewModel(
     clouds: data.current.cloud_cover,
     rain: data.current.rain || data.current.showers,
     snow: data.current.snowfall,
+    date: date,
+    isUserLocation,
   };
 }

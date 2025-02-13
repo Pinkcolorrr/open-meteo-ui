@@ -18,7 +18,5 @@ export function TodayForecast() {
     );
   }
 
-  console.log(data);
-
   return data && <TodayForecastCard viewModel={toViewModel(data)} />;
 }

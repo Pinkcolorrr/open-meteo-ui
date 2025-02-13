@@ -1,5 +1,5 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
-import { useCurrentLocation } from "@shared/utils/geo-location";
+import { useActiveLocation } from "@shared/utils/geo-location";
 
 import { CurrentWeatherItem } from "./ui/current-weather-item.tsx";
 import { CurrentWeatherItemSkeleton } from "./ui/current-weather-item-skeleton.tsx";
@@ -7,11 +7,16 @@ import { toViewModel } from "./ui/current-weather-view-model.ts";
 
 export function CurrentWeather() {
   const { data, isLoading } = useOpenMeteoData();
-  const { location, isLoading: isGeoLoading } = useCurrentLocation();
+  const { location, isUserLocation } = useActiveLocation();
 
-  if (isLoading || isGeoLoading) {
+  if (isLoading) {
     return <CurrentWeatherItemSkeleton />;
   }
 
-  return data && location && <CurrentWeatherItem {...toViewModel(data, location.city)} />;
+  return (
+    data &&
+    location && (
+      <CurrentWeatherItem {...toViewModel(data, location.city, isUserLocation, new Date())} />
+    )
+  );
 }

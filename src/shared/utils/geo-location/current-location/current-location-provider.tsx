@@ -1,63 +1,111 @@
+import { ipApi } from "@domain/ip-api/ip-api.ts";
 import { osmApi } from "@domain/osm";
-import { Coords } from "@shared/models/coords.ts";
+import { getCurrentPositionAsync } from "@shared/utils/async-navigator-geolocation.ts";
 import { ReactNode, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 
 import { GeoLocation } from "../models/geo-location.ts";
-import { useUserGeoLocation } from "../user-location/use-user-geo-location.ts";
 import { CurrentLocationContext } from "./current-location-context.ts";
 
-export function CurrentLocationProvider({ children }: { children: ReactNode }) {
-  const [location, setLocation] = useState<GeoLocation | null>(null);
-  const [params] = useSearchParams();
+const FAKE_LOCATION_DATA: GeoLocation = {
+  lat: 51.50853,
+  lon: -0.12574,
+  city: "London",
+  country: "United Kingdom",
+  countryCode: "UK",
+};
+
+export const CurrentLocationProvider = ({ children }: { children: ReactNode }) => {
+  const [getIpLocation, { isLoading: ipLoading }] = ipApi.useLazyResolveIpQuery();
   const [getReverseLocation, { isLoading: reverseLoading }] = osmApi.useLazyGetReverseGeoQuery();
+  const [location, setLocation] = useState<GeoLocation | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const { location: userLocation, isLoading, error } = useUserGeoLocation();
-
-  const getLocationByCoords = async (coords: Coords) => {
+  const resolveLocationByNavigator = async (): Promise<GeoLocation | undefined> => {
     try {
-      const location = await getReverseLocation(coords);
+      const position = await getCurrentPositionAsync();
+      const response = await getReverseLocation({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      });
 
-      if (!location.data) {
-        throw new Error("Could not find location");
+      if (response.error) {
+        throw response.error;
       }
 
-      return {
-        lat: Number(location.data.lat),
-        lon: Number(location.data.lon),
-        city: location.data.address.city,
-        country: location.data.address.country,
-        countryCode: location.data.address.country_code,
-      };
-    } catch (err) {
-      console.error(err);
+      if (response.data) {
+        return {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+          city: response.data.address.city,
+          country: response.data.address.country,
+          countryCode: response.data.address.country_code,
+        };
+      }
+    } catch (error) {
+      console.error("Failed while resolve location by navigator", error);
+    }
+  };
+
+  const resolveLocationByIp = async (): Promise<GeoLocation | undefined> => {
+    try {
+      const response = await getIpLocation();
+      if (response.data) {
+        return {
+          lat: response.data.lat,
+          lon: response.data.lon,
+          city: response.data.city,
+          country: response.data.country,
+          countryCode: response.data.countryCode,
+        };
+      }
+    } catch (error) {
+      console.error("Failed while resolve location by IP", error);
     }
   };
 
   const resolveLocation = async () => {
-    const lat = params.has("lat") && Number(params.get("lat"));
-    const lon = params.has("lon") && Number(params.get("lon"));
-
-    if (lat && lon) {
-      const data = await getLocationByCoords({ lat, lon });
-      if (data) {
-        setLocation(data);
+    const permission = await navigator.permissions.query({
+      name: "geolocation",
+    });
+    if (permission.state === "granted") {
+      const result = await resolveLocationByNavigator();
+      if (result) {
+        setLocation(result);
         return;
       }
     }
 
-    setLocation(userLocation);
+    const ipResult = await resolveLocationByIp();
+    if (ipResult) {
+      setLocation(ipResult);
+    }
+
+    const navigatorResult = await resolveLocationByNavigator();
+    if (navigatorResult) {
+      setLocation(navigatorResult);
+      return;
+    }
+
+    setError("Unable to resolve location");
+    setLocation(FAKE_LOCATION_DATA);
   };
 
   useEffect(() => {
     resolveLocation();
-  }, [params, userLocation]);
+  }, []);
+
+  useEffect(() => {
+    if (ipLoading || reverseLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [ipLoading, reverseLoading]);
 
   return (
-    <CurrentLocationContext.Provider
-      value={{ error, isLoading: isLoading || reverseLoading, location }}
-    >
+    <CurrentLocationContext.Provider value={{ location, isLoading, error }}>
       {children}
     </CurrentLocationContext.Provider>
   );
-}
+};

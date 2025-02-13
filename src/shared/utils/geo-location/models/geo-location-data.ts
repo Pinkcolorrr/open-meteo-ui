@@ -5,3 +5,7 @@ export interface GeoLocationData {
   error: unknown;
   isLoading: boolean;
 }
+
+export interface GeoLocationActiveData extends GeoLocationData {
+  isUserLocation: boolean;
+}

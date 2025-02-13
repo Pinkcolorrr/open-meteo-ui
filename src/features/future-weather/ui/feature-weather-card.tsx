@@ -6,7 +6,7 @@ import { FeatureWeatherViewModel } from "./feature-weather-view-model.ts";
 
 export function FeatureWeatherCard({ viewModel }: { viewModel: FeatureWeatherViewModel[] }) {
   return (
-    <Card className={"w-[420px]"}>
+    <Card className={"w-[370px]"}>
       <CardHeader>
         <CardTitle className={"flex"}>
           <Calendar className={"h-4"} /> 10 days forecast

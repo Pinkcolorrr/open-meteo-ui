@@ -11,6 +11,8 @@ export function CurrentWeatherItem({
   clouds,
   rain,
   snow,
+  isUserLocation,
+  date,
 }: CurrentWeatherViewModel) {
   const { condition, Icon } = useWeatherCondition({
     clouds,
@@ -21,8 +23,15 @@ export function CurrentWeatherItem({
   return (
     <>
       <div className={"flex flex-col items-center w-fit"}>
-        <span className={"uppercase text-xs"}>current location</span>
-        <span className={"text-2xl font-bold"}>{location}</span>
+        <span>{date.toDateString()}</span>
+        <span className={"text-2xl font-bold relative pt-4 px-3"}>
+          {isUserLocation && (
+            <span className={"uppercase text-xs absolute top-0 left-0 right-0"}>
+              current location
+            </span>
+          )}
+          {location}
+        </span>
         <Temperature temperature={temperature} className={"text-6xl"} />
         <span className={"font-bold text-gray-500 flex gap-1 capitalize"}>
           {condition} <Icon />
