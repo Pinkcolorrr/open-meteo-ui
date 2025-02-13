@@ -4,7 +4,7 @@ import {
   HourlyVariable,
   WeatherData,
 } from "@atombrenner/openmeteo";
-import { useGeoLocation } from "@shared/utils/geo-location";
+import { useCurrentLocation } from "@shared/utils/geo-location";
 import { useEffect, useState } from "react";
 
 import { openMeteoApi } from "../open-meteo-api.ts";
@@ -15,7 +15,7 @@ export function useOpenMeteoData(): {
   isLoading: boolean;
   error: unknown;
 } {
-  const { location, isLoading: locationLoading } = useGeoLocation();
+  const { location, isLoading: locationLoading } = useCurrentLocation();
   const [getForecast, { data, isLoading: dataLoading, error }] =
     openMeteoApi.useLazyGetForecastQuery();
   const [isLoading, setIsLoading] = useState(true);

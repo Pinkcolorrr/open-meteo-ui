@@ -1,6 +1,6 @@
+import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts";
 import { Temperature } from "@shared/ui/temperature";
 import { clsx } from "clsx";
-import { Moon, Sun } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 import { TodayForecastViewModel } from "../today-forecast-view-model.ts";
@@ -8,6 +8,12 @@ import { TodayForecastViewModel } from "../today-forecast-view-model.ts";
 export function TodayForecastHourItem(params: TodayForecastViewModel) {
   const isNow = params.hour === new Date().getHours();
   const ref = useRef<HTMLDivElement>(null);
+  const { Icon } = useWeatherCondition({
+    snow: params.snow,
+    clouds: params.clouds,
+    rain: params.rain,
+    isNight: !params.isDay,
+  });
 
   useEffect(() => {
     if (isNow) {
@@ -27,7 +33,7 @@ export function TodayForecastHourItem(params: TodayForecastViewModel) {
       })}
     >
       <span>{formatHour(params.hour)}</span>
-      <span>{params.isDay ? <Sun /> : <Moon />}</span>
+      <span>{<Icon />}</span>
       <Temperature temperature={params.temperature} />
       <span className={"font-light text-gray-500"}>{isNow && "now"}</span>
     </div>

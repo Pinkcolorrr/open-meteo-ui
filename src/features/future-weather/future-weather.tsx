@@ -8,7 +8,7 @@ export function FutureWeather() {
   const { data, isLoading } = useOpenMeteoData();
 
   if (isLoading) {
-    return <Skeleton className={"w-[312px] h-[520px]"} />;
+    return <Skeleton className={"w-[420px] h-[520px]"} />;
   }
 
   return data && <FeatureWeatherCard viewModel={toViewModel(data)} />;

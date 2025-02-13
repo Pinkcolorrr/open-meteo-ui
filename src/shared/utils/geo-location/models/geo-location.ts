@@ -6,5 +6,4 @@ export interface GeoLocation extends Coords {
   city: string;
   country: string;
   countryCode: string;
-  timezone: string;
 }

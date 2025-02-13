@@ -21,7 +21,6 @@ export function CurrentWeatherItem({
   return (
     <>
       <div className={"flex flex-col items-center w-fit"}>
-        <span>{new Date().toDateString()}</span>
         <span className={"uppercase text-xs"}>current location</span>
         <span className={"text-2xl font-bold"}>{location}</span>
         <Temperature temperature={temperature} className={"text-6xl"} />

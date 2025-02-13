@@ -3,8 +3,8 @@ import { osmApi } from "@domain/osm";
 import { getCurrentPositionAsync } from "@shared/utils/async-navigator-geolocation.ts";
 import { ReactNode, useEffect, useState } from "react";
 
-import { LocationContext } from "./location-context.ts";
-import { GeoLocation } from "./models/geo-location.ts";
+import { GeoLocation } from "../models/geo-location.ts";
+import { UserLocationContext } from "./user-location-context.ts";
 
 const FAKE_LOCATION_DATA: GeoLocation = {
   lat: 51.50853,
@@ -12,10 +12,9 @@ const FAKE_LOCATION_DATA: GeoLocation = {
   city: "London",
   country: "United Kingdom",
   countryCode: "UK",
-  timezone: "Greenwich Mean Time",
 };
 
-export const LocationProvider = ({ children }: { children: ReactNode }) => {
+export const UserLocationProvider = ({ children }: { children: ReactNode }) => {
   const [getIpLocation, { isLoading: ipLoading }] = ipApi.useLazyResolveIpQuery();
   const [getReverseLocation, { isLoading: reverseLoading }] = osmApi.useLazyGetReverseGeoQuery();
   const [location, setLocation] = useState<GeoLocation | null>(null);
@@ -41,7 +40,6 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
           city: response.data.address.city,
           country: response.data.address.country,
           countryCode: response.data.address.country_code,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         };
       }
     } catch (error) {
@@ -59,7 +57,6 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
           city: response.data.city,
           country: response.data.country,
           countryCode: response.data.countryCode,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         };
       }
     } catch (error) {
@@ -107,8 +104,8 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
   }, [ipLoading, reverseLoading]);
 
   return (
-    <LocationContext.Provider value={{ location, isLoading, error, setLocation }}>
+    <UserLocationContext.Provider value={{ location, isLoading, error }}>
       {children}
-    </LocationContext.Provider>
+    </UserLocationContext.Provider>
   );
 };

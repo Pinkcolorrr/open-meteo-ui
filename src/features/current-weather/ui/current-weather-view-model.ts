@@ -25,7 +25,7 @@ export function toViewModel(
     maxTemperature: Math.round(data.daily.temperature_2m_max[0]),
     minTemperature: Math.round(data.daily.temperature_2m_min[0]),
     clouds: data.current.cloud_cover,
-    rain: data.current.rain,
+    rain: data.current.rain || data.current.showers,
     snow: data.current.snowfall,
   };
 }
