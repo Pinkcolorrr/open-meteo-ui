@@ -26,7 +26,7 @@ export function TodayForecastCard(params: TodayForecastCardParams) {
           <CardTitle>Today forecast</CardTitle>
         </CardHeader>
         <CardContent
-          className={"flex gap-3 max-w-[700px] overflow-x-auto no-scrollbar pb-0"}
+          className={"flex gap-4 max-w-[700px] overflow-x-auto no-scrollbar pb-0"}
           ref={scrollRef}
         >
           {params.viewModel.map((model) => (
