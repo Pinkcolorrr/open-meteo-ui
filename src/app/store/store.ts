@@ -1,3 +1,4 @@
+import { ipApi } from "@domain/ip-api/ip-api.ts";
 import { openMeteoApi, openMeteoGeoApi } from "@domain/open-meteo";
 import { osmApi } from "@domain/osm";
 import { configureStore } from "@reduxjs/toolkit";
@@ -7,6 +8,7 @@ export const store = configureStore({
   reducer: {
     [openMeteoApi.reducerPath]: openMeteoApi.reducer,
     [openMeteoGeoApi.reducerPath]: openMeteoGeoApi.reducer,
+    [ipApi.reducerPath]: ipApi.reducer,
     [osmApi.reducerPath]: osmApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -14,6 +16,7 @@ export const store = configureStore({
       openMeteoApi.middleware,
       osmApi.middleware,
       openMeteoGeoApi.middleware,
+      ipApi.middleware,
     ),
 });
 

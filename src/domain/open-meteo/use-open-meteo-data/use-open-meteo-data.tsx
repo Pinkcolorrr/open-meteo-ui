@@ -15,20 +15,20 @@ export function useOpenMeteoData(): {
   isLoading: boolean;
   error: unknown;
 } {
-  const [location, locationLoading] = useGeoLocation();
+  const { location, isLoading: locationLoading } = useGeoLocation();
   const [getForecast, { data, isLoading: dataLoading, error }] =
     openMeteoApi.useLazyGetForecastQuery();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!locationLoading) {
+    if (location) {
       getForecast({
-        longitude: location ? location.lon : 0,
-        latitude: location ? location.lat : 0,
+        longitude: location.lon,
+        latitude: location.lat,
         ...OPEN_METEO_API_VARIABLES,
       });
     }
-  }, [getForecast, location, locationLoading]);
+  }, [location]);
 
   useEffect(() => {
     if (dataLoading || locationLoading) {

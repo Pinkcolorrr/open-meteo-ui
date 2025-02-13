@@ -1,7 +1,7 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
 import { Skeleton } from "@shared/ui/skeleton.tsx";
 
-import { FeatureWeatherCard } from "./ui/feature-weather-card/feature-weather-card.tsx";
+import { FeatureWeatherCard } from "./ui/feature-weather-card.tsx";
 import { toViewModel } from "./ui/feature-weather-view-model.ts";
 
 export function FutureWeather() {

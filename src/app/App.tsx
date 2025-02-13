@@ -10,10 +10,6 @@ import { Sidebar, SidebarTrigger } from "@shared/ui/sidebar.tsx";
 function App() {
   const { error } = useOpenMeteoData();
 
-  if (error) {
-    return <div>Weather service is not available</div>;
-  }
-
   return (
     <>
       <Sidebar>
@@ -21,9 +17,15 @@ function App() {
       </Sidebar>
       <main className={"flex flex-col items-center gap-10 relative w-full p-10"}>
         <SidebarTrigger className={"absolute top-4 left-4"} />
-        <CurrentWeather />
-        <TodayForecast />
-        <FutureWeather />
+        {error ? (
+          "Weather service is not available."
+        ) : (
+          <>
+            <CurrentWeather />
+            <TodayForecast />
+            <FutureWeather />
+          </>
+        )}
       </main>
     </>
   );

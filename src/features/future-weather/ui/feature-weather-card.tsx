@@ -1,10 +1,10 @@
-import { FeatureWeatherItem } from "@features/future-weather/ui/feature-weather-item/feature-weather-item.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
 import { Calendar } from "lucide-react";
 
-import { FeatureWeatherCardParams } from "./feature-weather-card-params.ts";
+import { FeatureWeatherItem } from "./feature-weather-item/feature-weather-item.tsx";
+import { FeatureWeatherViewModel } from "./feature-weather-view-model.ts";
 
-export function FeatureWeatherCard(params: FeatureWeatherCardParams) {
+export function FeatureWeatherCard({ viewModel }: { viewModel: FeatureWeatherViewModel[] }) {
   return (
     <Card className={"w-[312px]"}>
       <CardHeader>
@@ -14,7 +14,7 @@ export function FeatureWeatherCard(params: FeatureWeatherCardParams) {
       </CardHeader>
 
       <CardContent>
-        {params.viewModel.map((model) => (
+        {viewModel.map((model) => (
           <FeatureWeatherItem key={model.date.getTime()} {...model} />
         ))}
       </CardContent>

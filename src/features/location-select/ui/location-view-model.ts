@@ -1,5 +1,5 @@
 import { OpenMeteoGeoResponse } from "@domain/open-meteo";
-import { OsmReverseGeoResponse } from "@domain/osm/models/osm-reverse-geo.ts";
+import { GeoLocation } from "@shared/hooks/useGeoLocation.ts";
 
 export interface LocationViewModel {
   currentLocation: {
@@ -7,7 +7,6 @@ export interface LocationViewModel {
     country: string;
     countryCode: string;
   };
-  locationSelect: (location: LocationViewModelItem) => void;
   searchResults: LocationViewModelItem[];
 }
 
@@ -21,7 +20,7 @@ export interface LocationViewModelItem {
 
 export const toViewModel = (
   data?: OpenMeteoGeoResponse,
-  locationNameData?: OsmReverseGeoResponse,
+  locationNameData?: GeoLocation,
 ): LocationViewModel => {
   return {
     searchResults: (data?.results ?? []).map((location) => ({
@@ -32,9 +31,9 @@ export const toViewModel = (
       timezone: location.timezone,
     })),
     currentLocation: {
-      city: locationNameData?.address.city ?? "",
-      country: locationNameData?.address.country ?? "",
-      countryCode: locationNameData?.address.country_code ?? "",
+      city: locationNameData?.city ?? "",
+      country: locationNameData?.country ?? "",
+      countryCode: locationNameData?.countryCode ?? "",
     },
   };
 };

@@ -1,21 +1,17 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
-import {  useCurrentLocationName } from "@domain/osm";
-import { CurrentWeatherItemSkeleton } from "@features/current-weather/ui/current-weather-item-skeleton.tsx";
+import { useGeoLocation } from "@shared/hooks/useGeoLocation.ts";
 
 import { CurrentWeatherItem } from "./ui/current-weather-item.tsx";
+import { CurrentWeatherItemSkeleton } from "./ui/current-weather-item-skeleton.tsx";
 import { toViewModel } from "./ui/current-weather-view-model.ts";
 
 export function CurrentWeather() {
-  const { data, error, isLoading } = useOpenMeteoData();
-  const [locationNameData, locationNameLoading] = useCurrentLocationName()
+  const { data, isLoading } = useOpenMeteoData();
+  const { location, isLoading: isGeoLoading } = useGeoLocation();
 
-  if (error) {
-    return <div>error fetching dara</div>;
+  if (isLoading || isGeoLoading) {
+    return <CurrentWeatherItemSkeleton />;
   }
 
-  return isLoading || locationNameLoading ? (
-    <CurrentWeatherItemSkeleton />
-  ) : (
-    data && <CurrentWeatherItem viewModel={toViewModel(data, locationNameData!.address.city)} />
-  );
+  return data && location && <CurrentWeatherItem {...toViewModel(data, location.city)} />;
 }

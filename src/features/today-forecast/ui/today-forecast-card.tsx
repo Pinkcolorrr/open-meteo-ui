@@ -1,11 +1,11 @@
+import { TodayForecastViewModel } from "@features/today-forecast/ui/today-forecast-view-model.ts";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 
-import { TodayForecastHourItem } from "../today-forecast-hour-item";
-import { TodayForecastCardParams } from "./today-forecast-card-params";
+import { TodayForecastHourItem } from "./today-forecast-hour-item";
 
-export function TodayForecastCard(params: TodayForecastCardParams) {
+export function TodayForecastCard({ viewModel }: { viewModel: TodayForecastViewModel[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollRight = () => {
@@ -29,7 +29,7 @@ export function TodayForecastCard(params: TodayForecastCardParams) {
           className={"flex gap-4 max-w-[700px] overflow-x-auto no-scrollbar pb-0"}
           ref={scrollRef}
         >
-          {params.viewModel.map((model) => (
+          {viewModel.map((model) => (
             <TodayForecastHourItem key={model.hour} {...model} />
           ))}
         </CardContent>
