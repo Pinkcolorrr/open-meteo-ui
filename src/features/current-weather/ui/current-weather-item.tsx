@@ -1,4 +1,4 @@
-import { useWeatherCondition } from "@shared/lib/resolve-weather-conditions.ts";
+import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts";
 import { Temperature } from "@shared/ui/temperature";
 
 import { CurrentWeatherItemParams } from "./current-weather-item-params.ts";

@@ -4,7 +4,7 @@ import {
   HourlyVariable,
   WeatherData,
 } from "@atombrenner/openmeteo";
-import { useGeoLocation } from "@shared/lib/hooks/useGeoLocation.ts";
+import { useGeoLocation } from "@shared/hooks/useGeoLocation.ts";
 import { useEffect, useState } from "react";
 
 import { openMeteoApi } from "../open-meteo-api.ts";

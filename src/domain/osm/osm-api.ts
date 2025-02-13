@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GeoLocation } from "@shared/lib/hooks/useGeoLocation.ts";
+import { GeoLocation } from "@shared/hooks/useGeoLocation.ts";
 
 import { OsmReverseGeoResponse } from "./models/osm-reverse-geo.ts";
 
