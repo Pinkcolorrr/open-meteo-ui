@@ -1,13 +1,8 @@
 import { OpenMeteoGeoResponse } from "@domain/open-meteo";
-import { GeoLocation } from "@shared/hooks/useGeoLocation.ts";
 
-export interface LocationViewModel {
-  currentLocation: {
-    city: string;
-    country: string;
-    countryCode: string;
-  };
-  searchResults: LocationViewModelItem[];
+export interface LocationListParams {
+  viewModel: LocationViewModelItem[];
+  onLocationSelect: (location: LocationViewModelItem) => void;
 }
 
 export interface LocationViewModelItem {
@@ -18,22 +13,12 @@ export interface LocationViewModelItem {
   id: number;
 }
 
-export const toViewModel = (
-  data?: OpenMeteoGeoResponse,
-  locationNameData?: GeoLocation,
-): LocationViewModel => {
-  return {
-    searchResults: (data?.results ?? []).map((location) => ({
-      id: location.id,
-      name: location.name,
-      country: location.country,
-      countryCode: location.country_code,
-      timezone: location.timezone,
-    })),
-    currentLocation: {
-      city: locationNameData?.city ?? "",
-      country: locationNameData?.country ?? "",
-      countryCode: locationNameData?.countryCode ?? "",
-    },
-  };
+export const toViewModel = (data: OpenMeteoGeoResponse): LocationViewModelItem[] => {
+  return data.results.map((location) => ({
+    id: location.id,
+    name: location.name,
+    country: location.country,
+    countryCode: location.country_code,
+    timezone: location.timezone,
+  }));
 };

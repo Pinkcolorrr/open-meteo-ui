@@ -1,4 +1,4 @@
-import { cn } from "@shared/lib/utils.ts";
+import { cn } from "@shared/utils/cn.ts";
 import * as React from "react";
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(

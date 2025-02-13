@@ -22,7 +22,7 @@ export function CurrentWeatherItem({
     <>
       <div className={"flex flex-col items-center w-fit"}>
         <span>{new Date().toDateString()}</span>
-        <span className={"uppercase text-s"}>current location</span>
+        <span className={"uppercase text-xs"}>current location</span>
         <span className={"text-2xl font-bold"}>{location}</span>
         <Temperature temperature={temperature} className={"text-6xl"} />
         <span className={"font-bold text-gray-500 flex gap-1 capitalize"}>

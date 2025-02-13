@@ -8,7 +8,7 @@ export function LocationListItem(params: LocationViewModelItem) {
       <div>
         {params.country} ({params.countryCode}), {params.name}
       </div>
-      <div className={"flex gap-1 items-center text-s"}>
+      <div className={"flex gap-1 items-center text-xs"}>
         {params.timezone} <Clock className={"size-3"} />
       </div>
     </>

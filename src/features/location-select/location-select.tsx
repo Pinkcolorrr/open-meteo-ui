@@ -1,16 +1,20 @@
 import { openMeteoGeoApi, OpenMeteoGeoResponse } from "@domain/open-meteo";
-import { LocationList } from "@features/location-select/ui/location-list.tsx";
-import { toViewModel } from "@features/location-select/ui/location-view-model.ts";
 import { useDebounce } from "@shared/hooks/use-debounce";
-import { useGeoLocation } from "@shared/hooks/useGeoLocation.ts";
 import { Input } from "@shared/ui/input.tsx";
-import { Progress } from "@shared/ui/progress.tsx";
+import { useGeoLocation } from "@shared/utils/geo-location";
+import { Frown } from "lucide-react";
 import { useState } from "react";
 
+import { CurrentLocation } from "./ui/current-location.tsx";
+import { LocationList } from "./ui/location-list.tsx";
+import { LocationViewModelItem, toViewModel } from "./ui/location-view-model.ts";
+import { SelectedLocation } from "./ui/selected-location.tsx";
+import { SkeletonLocationList } from "./ui/skeleton-location-list.tsx";
+
 export function LocationSelect() {
-  const [getLocations, { isFetching }] = openMeteoGeoApi.useLazySearchLocationQuery();
+  const [getLocations, { isFetching, isSuccess }] = openMeteoGeoApi.useLazySearchLocationQuery();
   const [searchResults, setSearchResults] = useState<OpenMeteoGeoResponse>();
-  const { location } = useGeoLocation();
+  const { location, setLocation } = useGeoLocation();
 
   const search = useDebounce(async (value: string) => {
     if (value.length > 1) {
@@ -19,11 +23,37 @@ export function LocationSelect() {
     }
   });
 
+  const onLocationSelect = (location: LocationViewModelItem) => {
+    const item = searchResults?.results.find((item) => item.id === location.id);
+    if (item) {
+      setLocation({
+        lat: item.latitude,
+        lon: item.longitude,
+        city: item.name,
+        country: item.country,
+        countryCode: item.country_code,
+        timezone: item.timezone,
+      });
+    }
+  };
+
   return (
     <div className={"p-4"}>
       <Input placeholder={"Location name"} onInput={(event) => search(event.currentTarget.value)} />
-      {isFetching && <Progress />}
-      <LocationList {...toViewModel(searchResults, location!)} />
+      {location && <CurrentLocation {...location} />}
+      <SelectedLocation />
+      {isFetching && <SkeletonLocationList />}
+      {searchResults?.results && !isFetching && (
+        <LocationList viewModel={toViewModel(searchResults)} onLocationSelect={onLocationSelect} />
+      )}
+      {isSuccess && !searchResults?.results?.length && !isFetching && (
+        <div className={"my-2"}>
+          <div className={"flex gap-1"}>
+            Nothing found <Frown />
+          </div>
+          <div className={"text-sm"}>please try another query</div>
+        </div>
+      )}
     </div>
   );
 }

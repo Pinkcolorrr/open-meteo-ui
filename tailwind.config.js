@@ -13,8 +13,8 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		fontSize: {
-  			xs: '0.625rem',
-  			s: '0.7rem'
+  			xxs: '0.625rem',
+  			xs: '0.7rem',
   		},
   		colors: {
   			sidebar: {

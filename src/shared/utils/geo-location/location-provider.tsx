@@ -1,17 +1,10 @@
 import { ipApi } from "@domain/ip-api/ip-api.ts";
 import { osmApi } from "@domain/osm";
-import { Coords } from "@shared/models/coords.ts";
 import { getCurrentPositionAsync } from "@shared/utils/async-navigator-geolocation.ts";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
-export interface GeoLocation extends Coords {
-  lat: number;
-  lon: number;
-  city: string;
-  country: string;
-  countryCode: string;
-  timezone: string;
-}
+import { LocationContext } from "./location-context.ts";
+import { GeoLocation } from "./models/geo-location.ts";
 
 const FAKE_LOCATION_DATA: GeoLocation = {
   lat: 51.50853,
@@ -22,11 +15,7 @@ const FAKE_LOCATION_DATA: GeoLocation = {
   timezone: "Greenwich Mean Time",
 };
 
-export function useGeoLocation(): {
-  location: GeoLocation | null;
-  error: unknown;
-  isLoading: boolean;
-} {
+export const LocationProvider = ({ children }: { children: ReactNode }) => {
   const [getIpLocation, { isLoading: ipLoading }] = ipApi.useLazyResolveIpQuery();
   const [getReverseLocation, { isLoading: reverseLoading }] = osmApi.useLazyGetReverseGeoQuery();
   const [location, setLocation] = useState<GeoLocation | null>(null);
@@ -79,7 +68,9 @@ export function useGeoLocation(): {
   };
 
   const resolveLocation = async () => {
-    const permission = await navigator.permissions.query({ name: "geolocation" });
+    const permission = await navigator.permissions.query({
+      name: "geolocation",
+    });
     if (permission.state === "granted") {
       const result = await resolveLocationByNavigator();
       if (result) {
@@ -115,5 +106,9 @@ export function useGeoLocation(): {
     }
   }, [ipLoading, reverseLoading]);
 
-  return { location, isLoading, error };
-}
+  return (
+    <LocationContext.Provider value={{ location, isLoading, error, setLocation }}>
+      {children}
+    </LocationContext.Provider>
+  );
+};

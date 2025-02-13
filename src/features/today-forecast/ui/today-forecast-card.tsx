@@ -1,5 +1,7 @@
 import { TodayForecastViewModel } from "@features/today-forecast/ui/today-forecast-view-model.ts";
+import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
+import { clsx } from "clsx";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 
@@ -7,13 +9,14 @@ import { TodayForecastHourItem } from "./today-forecast-hour-item";
 
 export function TodayForecastCard({ viewModel }: { viewModel: TodayForecastViewModel[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const scrollRight = () => {
-    scrollRef.current?.scrollTo({ left: scrollRef.current.scrollWidth, behavior: "smooth" });
+    scrollRef.current?.scrollBy({ left: 275, behavior: "smooth" });
   };
 
   const scrollLeft = () => {
-    scrollRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+    scrollRef.current?.scrollBy({ left: -275, behavior: "smooth" });
   };
 
   return (
@@ -26,7 +29,10 @@ export function TodayForecastCard({ viewModel }: { viewModel: TodayForecastViewM
           <CardTitle>Today forecast</CardTitle>
         </CardHeader>
         <CardContent
-          className={"flex gap-4 max-w-[700px] overflow-x-auto no-scrollbar pb-0"}
+          className={clsx("flex gap-4 max-w-[700px] overflow-x-auto no-scrollbar pb-0", {
+            "max-w-[700px]": !isMobile,
+            "max-w-[300px]": isMobile,
+          })}
           ref={scrollRef}
         >
           {viewModel.map((model) => (

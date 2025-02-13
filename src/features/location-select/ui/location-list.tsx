@@ -1,17 +1,17 @@
-import { CurrentLocation } from "./current-location.tsx";
 import { LocationListItem } from "./location-list-item.tsx";
-import { LocationViewModel } from "./location-view-model.ts";
+import { LocationListParams } from "./location-view-model.ts";
 
-export function LocationList({ searchResults, currentLocation }: LocationViewModel) {
+export function LocationList({ viewModel, onLocationSelect }: LocationListParams) {
   return (
     <ul>
-      <li className={"bg-gray-200 mt-2 p-2 rounded-md"}>
-        <CurrentLocation {...currentLocation} />
-      </li>
-
-      {searchResults.map((location) => (
-        <li className={"border-b-2 p-2"} key={location.id}>
-          <LocationListItem {...location} />
+      {viewModel.map((location) => (
+        <li className={"border-b-2"} key={location.id}>
+          <button
+            className={"p-2 w-full text-start hover:bg-gray-100 rounded-lg"}
+            onClick={() => onLocationSelect(location)}
+          >
+            <LocationListItem {...location} />
+          </button>
         </li>
       ))}
     </ul>

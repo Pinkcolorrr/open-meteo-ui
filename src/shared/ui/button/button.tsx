@@ -1,5 +1,5 @@
 import { Slot } from "@radix-ui/react-slot";
-import { cn } from "@shared/lib/utils.ts";
+import { cn } from "@shared/utils/cn.ts";
 import { forwardRef } from "react";
 
 import { ButtonProps } from "./props.ts";

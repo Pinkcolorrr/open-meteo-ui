@@ -1,5 +1,5 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
-import { useGeoLocation } from "@shared/hooks/useGeoLocation.ts";
+import { useGeoLocation } from "@shared/utils/geo-location";
 
 import { CurrentWeatherItem } from "./ui/current-weather-item.tsx";
 import { CurrentWeatherItemSkeleton } from "./ui/current-weather-item-skeleton.tsx";
