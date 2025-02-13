@@ -11,6 +11,8 @@ export interface CurrentWeatherViewModel {
   maxTemperature: number;
   minTemperature: number;
   cloud: number;
+  rain: number;
+  snow: number;
 }
 
 export function toViewModel(
@@ -23,5 +25,7 @@ export function toViewModel(
     maxTemperature: Math.round(data.daily.temperature_2m_max[0]),
     minTemperature: Math.round(data.daily.temperature_2m_min[0]),
     cloud: data.current.cloud_cover,
+    rain: data.current.rain,
+    snow: data.current.snowfall,
   };
 }

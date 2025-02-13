@@ -22,7 +22,6 @@ export function CurrentWeather() {
   };
 
   useEffect(() => {
-    console.log(location);
     if (!locationLoading) {
       setCityData(location ?? { lat: 0, lon: 0 });
     }
