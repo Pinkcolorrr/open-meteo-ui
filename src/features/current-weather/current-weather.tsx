@@ -1,22 +1,28 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
-import { useActiveLocation } from "@shared/utils/geo-location";
+import { useActiveDate } from "@shared/utils/date";
+import { selectActiveLocation, selectIsUserLocation } from "@store/geo-location";
+import { useAppSelector } from "@store/hooks.ts";
 
 import { CurrentWeatherItem } from "./ui/current-weather-item.tsx";
 import { CurrentWeatherItemSkeleton } from "./ui/current-weather-item-skeleton.tsx";
 import { toViewModel } from "./ui/current-weather-view-model.ts";
 
 export function CurrentWeather() {
+  const location = useAppSelector(selectActiveLocation);
+  const isUserLocation = useAppSelector(selectIsUserLocation);
   const { data, isLoading } = useOpenMeteoData();
-  const { location, isUserLocation } = useActiveLocation();
+  const { date } = useActiveDate();
 
-  if (isLoading) {
+  if (isLoading || location.status === "loading") {
     return <CurrentWeatherItemSkeleton />;
   }
 
   return (
     data &&
-    location && (
-      <CurrentWeatherItem {...toViewModel(data, location.city, isUserLocation, new Date())} />
+    location.data && (
+      <CurrentWeatherItem
+        {...toViewModel(data, location.data.city, isUserLocation, new Date(date))}
+      />
     )
   );
 }

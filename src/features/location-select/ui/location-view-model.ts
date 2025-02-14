@@ -1,6 +1,6 @@
 import { OpenMeteoGeoResponse } from "@domain/open-meteo";
 
-export interface LocationListParams {
+export interface LocationListProps {
   viewModel: LocationViewModelItem[];
   onLocationSelect: (location: LocationViewModelItem) => void;
 }

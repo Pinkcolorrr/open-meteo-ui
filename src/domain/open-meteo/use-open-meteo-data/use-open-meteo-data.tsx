@@ -4,8 +4,9 @@ import {
   HourlyVariable,
   WeatherData,
 } from "@atombrenner/openmeteo";
-import { useActiveLocation } from "@shared/utils/geo-location";
-import { useEffect, useState } from "react";
+import { selectActiveLocation } from "@store/geo-location";
+import { useAppSelector } from "@store/hooks.ts";
+import { useEffect } from "react";
 
 import { openMeteoApi } from "../open-meteo-api.ts";
 import { OPEN_METEO_API_VARIABLES } from "./open-meteo-api-variables.ts";
@@ -15,28 +16,17 @@ export function useOpenMeteoData(): {
   isLoading: boolean;
   error: unknown;
 } {
-  const { location, isLoading: locationLoading } = useActiveLocation();
-  const [getForecast, { data, isLoading: dataLoading, error }] =
-    openMeteoApi.useLazyGetForecastQuery();
-  const [isLoading, setIsLoading] = useState(true);
-
+  const location = useAppSelector(selectActiveLocation);
+  const [getForecast, { data, isFetching, error }] = openMeteoApi.useLazyGetForecastQuery();
   useEffect(() => {
-    if (location) {
+    if (location.data) {
       getForecast({
-        longitude: location.lon,
-        latitude: location.lat,
+        longitude: location.data.lon,
+        latitude: location.data.lat,
         ...OPEN_METEO_API_VARIABLES,
       });
     }
   }, [location]);
 
-  useEffect(() => {
-    if (dataLoading) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
-  }, [dataLoading, locationLoading]);
-
-  return { data, isLoading, error };
+  return { data, isLoading: isFetching, error };
 }

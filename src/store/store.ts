@@ -1,8 +1,10 @@
-import { ipApi } from "@domain/ip-api/ip-api.ts";
+import { ipApi } from "@domain/ip-api";
 import { openMeteoApi, openMeteoGeoApi } from "@domain/open-meteo";
 import { osmApi } from "@domain/osm";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
+
+import { geoLocationSlice } from "./geo-location";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,7 @@ export const store = configureStore({
     [openMeteoGeoApi.reducerPath]: openMeteoGeoApi.reducer,
     [ipApi.reducerPath]: ipApi.reducer,
     [osmApi.reducerPath]: osmApi.reducer,
+    [geoLocationSlice.reducerPath]: geoLocationSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

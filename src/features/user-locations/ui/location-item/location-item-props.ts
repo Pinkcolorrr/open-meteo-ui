@@ -1,6 +1,6 @@
 import { GeoLocation } from "@shared/utils/geo-location";
 
 export interface LocationItemProps extends GeoLocation {
-  title: string;
+  title?: string;
   isActive: boolean;
 }

@@ -10,13 +10,15 @@ export function LocationListItem(params: LocationViewModelItem) {
   }).format(new Date());
 
   return (
-    <>
+    <div className={"flex justify-between items-center"}>
       <div>
-        {params.country} ({params.countryCode}), {params.name}
+        <div>
+          {params.country} ({params.countryCode}), {params.name}
+        </div>
+        <div className={"flex gap-1 items-center text-xs"}>
+          {params.timezone} - {time} <Clock className={"size-3"} />
+        </div>
       </div>
-      <div className={"flex gap-1 items-center text-xs"}>
-        {params.timezone} - {time} <Clock className={"size-3"} />
-      </div>
-    </>
+    </div>
   );
 }

@@ -11,7 +11,7 @@ export const openMeteoGeoApi = createApi({
     searchLocation: builder.query<OpenMeteoGeoResponse, string>({
       query: (name) => ({
         url: "/search",
-        params: { name },
+        params: { name, count: 5 },
       }),
     }),
   }),
