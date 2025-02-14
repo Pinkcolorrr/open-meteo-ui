@@ -1,6 +1,6 @@
 import { Clock } from "lucide-react";
 
-import { LocationViewModelItem } from "./location-view-model.ts";
+import { LocationViewModelItem } from "../location-view-model.ts";
 
 export function LocationListItem(params: LocationViewModelItem) {
   const time = Intl.DateTimeFormat("eu-EU", {

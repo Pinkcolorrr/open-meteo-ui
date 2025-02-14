@@ -1,4 +1,4 @@
-import { GeoLocationResolver, TGeoLocationResolveStrategy } from "@shared/utils/geo-location";
+import { GeoLocationResolver, TGeoLocationResolveStrategy } from "@shared/geo-location";
 import { AppDispatch } from "@store/store.ts";
 
 import { GeoLocationIpFirstResolver } from "./geo-location-ip-first-resolver.ts";

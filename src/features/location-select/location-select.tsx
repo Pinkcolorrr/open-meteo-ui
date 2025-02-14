@@ -5,9 +5,9 @@ import { Frown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
-import { LocationList } from "./ui/location-list.tsx";
+import { LocationList } from "./ui/location-list/location-list.tsx";
+import { SkeletonLocationList } from "./ui/location-list/skeleton-location-list.tsx";
 import { LocationViewModelItem, toViewModel } from "./ui/location-view-model.ts";
-import { SkeletonLocationList } from "./ui/skeleton-location-list.tsx";
 
 export function LocationSelect() {
   const [getLocations, { isFetching }] = openMeteoGeoApi.useLazySearchLocationQuery();

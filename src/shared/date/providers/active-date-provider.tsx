@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 
-import { getDayStart } from "../utils/get-day-start.ts";
+import { getDayStart } from "../lib/get-day-start.ts";
 import { ActiveDateContext } from "./active-date-context.ts";
 
 export function ActiveDateProvider({ children }: { children: ReactNode }) {

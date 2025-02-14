@@ -1,4 +1,4 @@
-import { GeoLocation } from "@shared/utils/geo-location";
+import { GeoLocation } from "@shared/geo-location";
 import { AppDispatch } from "@store/store.ts";
 
 export abstract class GeoLocationResolver {

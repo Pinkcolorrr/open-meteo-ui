@@ -1,6 +1,6 @@
+import { getHourStart } from "@shared/date";
 import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts";
 import { Temperature } from "@shared/ui/temperature";
-import { getHourStart } from "@shared/utils/date";
 import { clsx } from "clsx";
 import { useEffect, useRef } from "react";
 

@@ -1,5 +1,5 @@
 import { LocationListItem } from "./location-list-item.tsx";
-import { LocationListProps } from "./location-view-model.ts";
+import { LocationListProps } from "./location-list-props.ts";
 
 export function LocationList({ viewModel, onLocationSelect }: LocationListProps) {
   return (

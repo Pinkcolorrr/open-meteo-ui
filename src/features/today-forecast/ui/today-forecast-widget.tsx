@@ -7,7 +7,7 @@ import { useRef } from "react";
 
 import { TodayForecastHourItem } from "./today-forecast-hour-item";
 
-export function TodayForecastCard({ viewModel }: { viewModel: TodayForecastViewModel[] }) {
+export function TodayForecastWidget({ viewModel }: { viewModel: TodayForecastViewModel[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 

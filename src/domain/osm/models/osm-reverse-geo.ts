@@ -28,4 +28,8 @@ export interface OsmAddress {
   postcode: string;
   country: string;
   country_code: string;
+  village: string;
+  state: string;
+  state_district: string;
+  municipality: string;
 }

@@ -15,4 +15,5 @@ export interface IpApiResponse {
   as: string;
   query: string;
   road: string;
+  village: string;
 }

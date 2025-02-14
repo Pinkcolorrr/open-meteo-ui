@@ -1,9 +1,9 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { GeoLocation } from "@shared/utils/geo-location";
-import { compareLocations } from "@shared/utils/geo-location/compare-locations.ts";
+import { compareLocations, GeoLocation } from "@shared/geo-location";
+import { RequestedValue } from "@store/lib/requested-value";
 import { PersistentMeta } from "@store/middlewares/persistent-middleware";
 
-import { GeoLocationState } from "../geo-location-slice.ts";
+import { GeoLocationState } from "./geo-location-slice.ts";
 
 const RECENT_LOCATIONS_STORAGE_KEY = "OM-UI_RECENT-LOCATIONS";
 
@@ -23,7 +23,11 @@ export function getRecentLocationsInitialState(): GeoLocation[] {
   }
 }
 
-export function recentLocationHandler(state: GeoLocationState, action: PayloadAction<GeoLocation>) {
+export const onActiveLocationFulfilled = (
+  state: GeoLocationState,
+  action: PayloadAction<GeoLocation>,
+) => {
+  RequestedValue.onSuccess(state.activeLocation, action.payload);
   const isAlreadyInRecent = state.recentLocations.find((loc) =>
     compareLocations(loc, action.payload),
   );
@@ -48,4 +52,4 @@ export function recentLocationHandler(state: GeoLocationState, action: PayloadAc
     key: RECENT_LOCATIONS_STORAGE_KEY,
     dataToPersist: state.recentLocations,
   };
-}
+};

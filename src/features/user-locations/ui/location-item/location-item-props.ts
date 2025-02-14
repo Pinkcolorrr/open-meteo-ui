@@ -1,4 +1,4 @@
-import { GeoLocation } from "@shared/utils/geo-location";
+import { GeoLocation } from "@shared/geo-location";
 
 export interface LocationItemProps extends GeoLocation {
   title?: string;

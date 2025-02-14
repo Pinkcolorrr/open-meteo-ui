@@ -5,8 +5,8 @@ import {
   WeatherData,
 } from "@atombrenner/openmeteo";
 import { selectActiveLocation } from "@store/geo-location";
-import { useAppSelector } from "@store/hooks.ts";
-import { RequestedValue } from "@store/utils/requested-value";
+import { useAppSelector } from "@store/lib/hooks.ts";
+import { RequestedValue } from "@store/lib/requested-value";
 import { useEffect } from "react";
 
 import { openMeteoApi } from "../open-meteo-api.ts";
@@ -28,5 +28,10 @@ export function useOpenMeteoData(): RequestedValue<
     }
   }, [location.data?.lon, location.data?.lat]);
 
-  return { ...params, data: params.data ?? null, error: params.error as string };
+  return {
+    ...params,
+    isLoading: params.isFetching,
+    data: params.data ?? null,
+    error: params.error as string,
+  };
 }

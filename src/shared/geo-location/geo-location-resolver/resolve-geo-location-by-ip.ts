@@ -1,5 +1,5 @@
 import { ipApi } from "@domain/ip-api";
-import { GeoLocation } from "@shared/utils/geo-location";
+import { GeoLocation } from "@shared/geo-location";
 import { AppDispatch } from "@store/store.ts";
 
 export const resolveLocationByIp = async (
@@ -14,7 +14,7 @@ export const resolveLocationByIp = async (
     return {
       lat: response.data.lat,
       lon: response.data.lon,
-      name: response.data.city ?? response.data.town ?? response.data.road,
+      name: response.data.city ?? response.data.town ?? response.data.village ?? response.data.road,
       country: response.data.country,
       countryCode: response.data.countryCode,
     };

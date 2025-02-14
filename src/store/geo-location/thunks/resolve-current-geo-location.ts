@@ -3,8 +3,9 @@ import {
   createGeoLocationResolver,
   GeoLocation,
   TGeoLocationResolveStrategy,
-} from "@shared/utils/geo-location";
-import { AppDispatch, RootState } from "@store/store.ts";
+} from "@shared/geo-location";
+
+import { AppDispatch, RootState } from "../../store.ts";
 
 export const resolveCurrentGeoLocation = createAsyncThunk<
   GeoLocation,

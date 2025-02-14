@@ -4,13 +4,13 @@ import { clsx } from "clsx";
 import { Calendar } from "lucide-react";
 
 import { FeatureWeatherItem } from "../feature-weather-item/feature-weather-item.tsx";
-import { FutureWeatherCardProps } from "./future-weather-card-props.ts";
+import { FutureWeatherWidgetProps } from "./future-weather-widget-props.ts";
 
-export function FeatureWeatherCard({
+export function FeatureWeatherWidget({
   viewModel,
   onDateSelected,
   activeDate,
-}: FutureWeatherCardProps) {
+}: FutureWeatherWidgetProps) {
   const isMobile = useIsMobile();
 
   return (
@@ -35,7 +35,7 @@ export function FeatureWeatherCard({
             key={model.date.getTime()}
             onClick={() => onDateSelected(model.date)}
           >
-            <FeatureWeatherItem {...model} />
+            <FeatureWeatherItem viewModel={model} />
           </button>
         ))}
       </CardContent>

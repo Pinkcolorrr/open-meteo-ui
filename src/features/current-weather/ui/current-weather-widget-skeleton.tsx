@@ -1,6 +1,6 @@
 import { Skeleton } from "@shared/ui/skeleton.tsx";
 
-export function CurrentWeatherItemSkeleton() {
+export function CurrentWeatherWidgetSkeleton() {
   return (
     <div className={"flex flex-col items-center w-fit shrink-0"}>
       <span>{new Date().toDateString()}</span>

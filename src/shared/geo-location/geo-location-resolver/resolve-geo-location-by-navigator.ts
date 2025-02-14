@@ -1,6 +1,6 @@
-import { osmApi } from "@domain/osm";
+import { osmApi, resolveOsmDisplayName } from "@domain/osm";
+import { GeoLocation } from "@shared/geo-location";
 import { getCurrentPositionAsync } from "@shared/utils/async-navigator-geolocation.ts";
-import { GeoLocation } from "@shared/utils/geo-location";
 import { AppDispatch } from "@store/store.ts";
 
 export const resolveLocationByNavigator = async (
@@ -21,7 +21,7 @@ export const resolveLocationByNavigator = async (
     return {
       lat: position.coords.latitude,
       lon: position.coords.longitude,
-      name: response.data.address.city ?? response.data.address.town ?? response.data.address.road,
+      name: resolveOsmDisplayName(response.data),
       country: response.data.address.country,
       countryCode: response.data.address.country_code,
     };

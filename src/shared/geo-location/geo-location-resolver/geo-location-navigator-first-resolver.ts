@@ -1,4 +1,4 @@
-import { GeoLocation } from "@shared/utils/geo-location";
+import { GeoLocation } from "@shared/geo-location";
 
 import { GeoLocationResolver } from "./geo-location-resolver.ts";
 import { resolveLocationByIp } from "./resolve-geo-location-by-ip.ts";

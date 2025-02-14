@@ -5,6 +5,10 @@ import {
   WeatherData,
 } from "@atombrenner/openmeteo";
 
+export interface CurrentWeatherViewProps {
+  viewModel: CurrentWeatherViewModel;
+}
+
 export interface CurrentWeatherViewModel {
   location: string;
   temperature: number;
@@ -19,12 +23,12 @@ export interface CurrentWeatherViewModel {
 
 export function toViewModel(
   data: WeatherData<HourlyVariable, DailyVariable, CurrentVariable>,
-  city: string,
+  name: string,
   isUserLocation: boolean,
   date: Date,
 ): CurrentWeatherViewModel {
   return {
-    location: city ?? "",
+    location: name ?? "",
     temperature: Math.round(data.current.temperature_2m),
     maxTemperature: Math.round(data.daily.temperature_2m_max[0]),
     minTemperature: Math.round(data.daily.temperature_2m_min[0]),
