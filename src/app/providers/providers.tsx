@@ -1,5 +1,6 @@
 import { store } from "@app/store";
 import { SidebarProvider } from "@shared/ui/sidebar.tsx";
+import { ActiveDateProvider } from "@shared/utils/date";
 import { CurrentLocationProvider } from "@shared/utils/geo-location";
 import { ActiveLocationProvider } from "@shared/utils/geo-location";
 import { ReactNode } from "react";
@@ -11,6 +12,7 @@ interface ProviderProps {
 }
 
 const PROVIDERS: ((props: ProviderProps) => ReactNode)[] = [
+  ({ children }) => <ActiveDateProvider>{children}</ActiveDateProvider>,
   ({ children }) => <ActiveLocationProvider>{children}</ActiveLocationProvider>,
   ({ children }) => <CurrentLocationProvider>{children}</CurrentLocationProvider>,
   ({ children }) => <SidebarProvider>{children}</SidebarProvider>,

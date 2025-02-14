@@ -23,6 +23,7 @@ export interface OsmAddress {
   quarter: string;
   suburb: string;
   city: string;
+  town: string;
   "ISO3166-2-lvl4": string;
   postcode: string;
   country: string;

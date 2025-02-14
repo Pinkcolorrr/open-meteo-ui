@@ -1,12 +1,13 @@
 import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts";
 import { Temperature } from "@shared/ui/temperature";
+import { getHourStart } from "@shared/utils/date";
 import { clsx } from "clsx";
 import { useEffect, useRef } from "react";
 
 import { TodayForecastViewModel } from "../today-forecast-view-model.ts";
 
 export function TodayForecastHourItem(params: TodayForecastViewModel) {
-  const isNow = params.hour === new Date().getHours();
+  const isNow = params.date === getHourStart().getTime();
   const ref = useRef<HTMLDivElement>(null);
   const { Icon } = useWeatherCondition({
     snow: params.snow,
@@ -22,20 +23,20 @@ export function TodayForecastHourItem(params: TodayForecastViewModel) {
   }, [ref, isNow]);
 
   const formatHour = (hour: number) => {
-    return String(hour).padStart(2, "0");
+    return String(new Date(hour).getHours()).padStart(2, "0");
   };
 
   return (
     <div
       ref={ref}
-      className={clsx("flex flex-col items-center gap-2", {
+      className={clsx("flex flex-col items-center gap-2 relative pb-[1.5rem]", {
         "font-bold": isNow,
       })}
     >
-      <span>{formatHour(params.hour)}</span>
+      <span>{formatHour(params.date)}</span>
       <span>{<Icon />}</span>
       <Temperature temperature={params.temperature} />
-      <span className={"font-light text-gray-500"}>{isNow && "now"}</span>
+      <span className={"font-light absolute bottom-0 text-gray-500"}>{isNow && "now"}</span>
     </div>
   );
 }

@@ -34,7 +34,7 @@ export function ActiveLocationProvider({ children }: { children: ReactNode }) {
       return {
         lat: Number(location.data.lat),
         lon: Number(location.data.lon),
-        city: location.data.address.city,
+        city: location.data.address.city ?? location.data.address.town,
         country: location.data.address.country,
         countryCode: location.data.address.country_code,
       };

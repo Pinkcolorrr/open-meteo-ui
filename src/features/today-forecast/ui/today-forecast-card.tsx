@@ -32,7 +32,7 @@ export function TodayForecastCard({ viewModel }: { viewModel: TodayForecastViewM
         </CardHeader>
         <CardContent className={"flex gap-4 overflow-x-auto no-scrollbar pb-0"} ref={scrollRef}>
           {viewModel.map((model) => (
-            <TodayForecastHourItem key={model.hour} {...model} />
+            <TodayForecastHourItem key={model.date} {...model} />
           ))}
         </CardContent>
       </Card>

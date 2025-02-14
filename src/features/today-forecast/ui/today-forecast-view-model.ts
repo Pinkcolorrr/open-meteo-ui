@@ -6,7 +6,7 @@ import {
 } from "@atombrenner/openmeteo";
 
 export interface TodayForecastViewModel {
-  hour: number;
+  date: number;
   temperature: number;
   isDay: boolean;
   rain: number;
@@ -16,13 +16,17 @@ export interface TodayForecastViewModel {
 
 export const toViewModel = (
   data: WeatherData<HourlyVariable, DailyVariable, CurrentVariable>,
+  from?: number,
 ): TodayForecastViewModel[] => {
-  return data.hourly.time.slice(0, 24).map((unixTimestamp, index) => ({
-    hour: new Date(unixTimestamp * 1000).getHours(),
-    temperature: Math.round(data.hourly.temperature_2m[index]),
-    isDay: Boolean(data.hourly.is_day[index]),
-    rain: data.hourly.rain[index] || data.hourly.showers[index],
-    snow: data.hourly.snowfall[index],
-    clouds: data.hourly.cloud_cover[index],
+  const fromIndex = data.hourly.time.findIndex((v) => v * 1000 === from);
+  const toIndex = fromIndex + 24;
+
+  return data.hourly.time.slice(fromIndex, toIndex).map((unixTimestamp, index) => ({
+    date: new Date(unixTimestamp * 1000).getTime(),
+    temperature: Math.round(data.hourly.temperature_2m[index + fromIndex]),
+    isDay: Boolean(data.hourly.is_day[index + fromIndex]),
+    rain: data.hourly.rain[index + fromIndex] || data.hourly.showers[index + fromIndex],
+    snow: data.hourly.snowfall[index + fromIndex],
+    clouds: data.hourly.cloud_cover[index + fromIndex],
   }));
 };
