@@ -5,6 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { geoLocationSlice } from "./geo-location";
+import { persistentMiddleware } from "./middlewares/persistent-middleware";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
       osmApi.middleware,
       openMeteoGeoApi.middleware,
       ipApi.middleware,
+      persistentMiddleware,
     ),
 });
 

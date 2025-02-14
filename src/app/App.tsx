@@ -7,17 +7,9 @@ import { LocationSelect } from "@features/location-select";
 import { TodayForecast } from "@features/today-forecast";
 import { UserLocations } from "@features/user-locations";
 import { Sidebar, SidebarTrigger } from "@shared/ui/sidebar.tsx";
-import { resolveCurrentGeoLocation } from "@store/geo-location";
-import { useAppDispatch } from "@store/hooks.ts";
-import { useEffect } from "react";
 
 function App() {
   const { error } = useOpenMeteoData();
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(resolveCurrentGeoLocation());
-  }, [dispatch]);
 
   return (
     <>

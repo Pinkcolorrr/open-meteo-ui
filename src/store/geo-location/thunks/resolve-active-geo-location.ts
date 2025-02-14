@@ -1,6 +1,6 @@
 import { osmApi } from "@domain/osm";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Coords } from "@shared/models/coords.ts";
+import { Coords } from "@shared/utils/geo-location";
 
 export const resolveActiveGeoLocation = createAsyncThunk(
   "geoLocation/resolveActive",

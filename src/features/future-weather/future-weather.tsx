@@ -2,6 +2,8 @@ import { useOpenMeteoData } from "@domain/open-meteo";
 import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Skeleton } from "@shared/ui/skeleton.tsx";
 import { useActiveDate } from "@shared/utils/date";
+import { selectActiveLocation } from "@store/geo-location";
+import { useAppSelector } from "@store/hooks.ts";
 import { clsx } from "clsx";
 
 import { FeatureWeatherCard } from "./ui/feature-weather-card/feature-weather-card.tsx";
@@ -11,12 +13,13 @@ export function FutureWeather() {
   const { data, isLoading } = useOpenMeteoData();
   const isMobile = useIsMobile();
   const { date, setDate } = useActiveDate();
+  const location = useAppSelector(selectActiveLocation);
 
   const onDateSelected = (date: Date) => {
     setDate(date.getTime());
   };
 
-  if (isLoading) {
+  if (isLoading || location.status === "loading") {
     return (
       <Skeleton
         className={clsx("w-[370px] h-[520px] shrink-0", {

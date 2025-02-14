@@ -26,7 +26,7 @@ export function useOpenMeteoData(): {
         ...OPEN_METEO_API_VARIABLES,
       });
     }
-  }, [location]);
+  }, [location.data?.lon, location.data?.lat]);
 
   return { data, isLoading: isFetching, error };
 }

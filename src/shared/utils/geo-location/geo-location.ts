@@ -1,4 +1,4 @@
-import { Coords } from "@shared/models/coords.ts";
+import { Coords } from "./coords.ts";
 
 export interface GeoLocation extends Coords {
   lat: number;
