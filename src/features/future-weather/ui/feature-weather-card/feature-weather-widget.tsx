@@ -2,11 +2,12 @@ import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
 import { clsx } from "clsx";
 import { Calendar } from "lucide-react";
+import { memo } from "react";
 
 import { FeatureWeatherItem } from "../feature-weather-item/feature-weather-item.tsx";
 import { FutureWeatherWidgetProps } from "./future-weather-widget-props.ts";
 
-export function FeatureWeatherWidget({
+function FeatureWeatherWidgetComponent({
   viewModel,
   onDateSelected,
   activeDate,
@@ -42,3 +43,6 @@ export function FeatureWeatherWidget({
     </Card>
   );
 }
+
+export const FeatureWeatherWidget = memo(FeatureWeatherWidgetComponent);
+FeatureWeatherWidget.displayName = "FeatureWeatherWidget";

@@ -1,8 +1,9 @@
+import { compareLocations } from "@shared/geo-location";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../lib/hooks.ts";
-import { selectCurrentLocation } from "../geo-location-selectors.ts";
+import { selectCurrentLocation, selectRecentLocations } from "../geo-location-selectors.ts";
 import { setActiveLocation } from "../geo-location-slice/geo-location-slice.ts";
 import { resolveActiveGeoLocation } from "../thunks/resolve-active-geo-location.ts";
 
@@ -11,6 +12,7 @@ type currentDataSource = `current?lat=${number}&lon=${number}`;
 
 export function ActiveGeoLocationHandler() {
   const currentLocation = useAppSelector(selectCurrentLocation);
+  const recentLocations = useAppSelector(selectRecentLocations);
   const dispatch = useAppDispatch();
   const [params] = useSearchParams();
   const [dataSource, setDataSource] = useState<currentDataSource | paramsDataSource | null>(null);
@@ -19,6 +21,15 @@ export function ActiveGeoLocationHandler() {
 
   const resolveActiveLocation = async (source: currentDataSource | paramsDataSource) => {
     if (source.includes("params") && lat && lon) {
+      const persistLocation = recentLocations.find((location) =>
+        compareLocations(location, { lat, lon }),
+      );
+
+      if (persistLocation) {
+        dispatch(setActiveLocation(persistLocation));
+        return;
+      }
+
       dispatch(resolveActiveGeoLocation({ lat, lon }));
       return;
     }

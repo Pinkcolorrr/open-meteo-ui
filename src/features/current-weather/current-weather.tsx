@@ -2,6 +2,7 @@ import { useOpenMeteoData } from "@domain/open-meteo";
 import { useActiveDate } from "@shared/date";
 import { selectActiveLocation, selectIsUserLocation } from "@store/geo-location";
 import { useAppSelector } from "@store/lib/hooks.ts";
+import { useMemo } from "react";
 
 import { toViewModel } from "./ui/current-weather-view-model.ts";
 import { CurrentWeatherWidget } from "./ui/current-weather-widget.tsx";
@@ -12,17 +13,17 @@ export function CurrentWeather() {
   const isUserLocation = useAppSelector(selectIsUserLocation);
   const weather = useOpenMeteoData();
   const { date } = useActiveDate();
+  const viewModel = useMemo(
+    () =>
+      weather.data && location.data
+        ? toViewModel(weather.data, location.data.name, isUserLocation, new Date(date))
+        : null,
+    [weather.data, location.data?.name, isUserLocation, date],
+  );
 
   if (weather.isLoading) {
     return <CurrentWeatherWidgetSkeleton />;
   }
 
-  return (
-    weather.data &&
-    location.data && (
-      <CurrentWeatherWidget
-        viewModel={toViewModel(weather.data, location.data.name, isUserLocation, new Date(date))}
-      />
-    )
-  );
+  return viewModel && <CurrentWeatherWidget viewModel={viewModel} />;
 }

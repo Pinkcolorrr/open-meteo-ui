@@ -3,6 +3,7 @@ import { useActiveDate } from "@shared/date";
 import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Skeleton } from "@shared/ui/skeleton.tsx";
 import { clsx } from "clsx";
+import { useCallback, useMemo } from "react";
 
 import { FeatureWeatherWidget } from "./ui/feature-weather-card/feature-weather-widget.tsx";
 import { toViewModel } from "./ui/feature-weather-view-model.ts";
@@ -11,10 +12,17 @@ export function FutureWeather() {
   const weather = useOpenMeteoData();
   const isMobile = useIsMobile();
   const { date, setDate } = useActiveDate();
+  const viewModel = useMemo(
+    () => (weather.data ? toViewModel(weather.data) : null),
+    [weather.data],
+  );
 
-  const onDateSelected = (date: Date) => {
-    setDate(date.getTime());
-  };
+  const onDateSelected = useCallback(
+    (date: Date) => {
+      setDate(date.getTime());
+    },
+    [date],
+  );
 
   if (weather.isLoading) {
     return (
@@ -27,9 +35,9 @@ export function FutureWeather() {
   }
 
   return (
-    weather.data && (
+    viewModel && (
       <FeatureWeatherWidget
-        viewModel={toViewModel(weather.data)}
+        viewModel={viewModel}
         onDateSelected={onDateSelected}
         activeDate={new Date(date)}
       />

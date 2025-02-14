@@ -3,8 +3,9 @@ import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts
 import { Temperature } from "@shared/ui/temperature";
 import { clsx } from "clsx";
 import { Minus, Thermometer } from "lucide-react";
+import { memo } from "react";
 
-export function FeatureWeatherItem({ viewModel }: FeatureWeatherItemProps) {
+function FeatureWeatherItemComponent({ viewModel }: FeatureWeatherItemProps) {
   const { Icon, condition } = useWeatherCondition({
     rain: viewModel.rain,
     snow: viewModel.snow,
@@ -44,3 +45,6 @@ export function FeatureWeatherItem({ viewModel }: FeatureWeatherItemProps) {
     </div>
   );
 }
+
+export const FeatureWeatherItem = memo(FeatureWeatherItemComponent);
+FeatureWeatherItem.displayName = "FeatureWeatherItem";

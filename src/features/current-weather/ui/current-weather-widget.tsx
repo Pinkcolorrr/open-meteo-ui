@@ -1,9 +1,10 @@
 import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts";
 import { Temperature } from "@shared/ui/temperature";
+import { memo } from "react";
 
 import { CurrentWeatherViewProps } from "./current-weather-view-model.ts";
 
-export function CurrentWeatherWidget({
+function CurrentWeatherWidgetComponent({
   viewModel: {
     location,
     temperature,
@@ -46,3 +47,6 @@ export function CurrentWeatherWidget({
     </>
   );
 }
+
+export const CurrentWeatherWidget = memo(CurrentWeatherWidgetComponent);
+CurrentWeatherWidget.displayName = "CurrentWeatherWidget";
