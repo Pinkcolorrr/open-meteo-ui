@@ -1,6 +1,6 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
 import { CurrentWeather } from "@features/current-weather";
-import { FutureWeather } from "@features/future-weather";
+import { FutureForecast } from "@features/future-forecast";
 import { LocationSelect } from "@features/location-select";
 import { TodayForecast } from "@features/today-forecast";
 import { UserLocations } from "@features/user-locations";
@@ -33,7 +33,7 @@ function App() {
             <>
               <CurrentWeather />
               <TodayForecast />
-              <FutureWeather />
+              <FutureForecast />
             </>
           )}
         </section>

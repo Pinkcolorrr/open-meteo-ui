@@ -1,11 +1,11 @@
-import { FeatureWeatherItemProps } from "@features/future-weather/ui/feature-weather-item/feature-weather-item-props.ts";
+import { FeatureWeatherItemProps } from "@features/future-forecast/ui/feature-forecast-item/feature-weather-item-props.ts";
 import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts";
 import { Temperature } from "@shared/ui/temperature";
 import { clsx } from "clsx";
 import { Minus, Thermometer } from "lucide-react";
 import { memo } from "react";
 
-function FeatureWeatherItemComponent({ viewModel }: FeatureWeatherItemProps) {
+function FeatureForecastItemComponent({ viewModel }: FeatureWeatherItemProps) {
   const { Icon, condition } = useWeatherCondition({
     rain: viewModel.rain,
     snow: viewModel.snow,
@@ -46,5 +46,5 @@ function FeatureWeatherItemComponent({ viewModel }: FeatureWeatherItemProps) {
   );
 }
 
-export const FeatureWeatherItem = memo(FeatureWeatherItemComponent);
-FeatureWeatherItem.displayName = "FeatureWeatherItem";
+export const FeatureForecastItem = memo(FeatureForecastItemComponent);
+FeatureForecastItem.displayName = "FeatureForecastItem";

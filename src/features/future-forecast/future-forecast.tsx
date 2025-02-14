@@ -1,14 +1,14 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
+import { FeatureForecastWidget } from "@features/future-forecast/ui/feature-forecast-card/feature-forecast-widget.tsx";
 import { useActiveDate } from "@shared/date";
 import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Skeleton } from "@shared/ui/skeleton.tsx";
 import { clsx } from "clsx";
 import { useCallback, useMemo } from "react";
 
-import { FeatureWeatherWidget } from "./ui/feature-weather-card/feature-weather-widget.tsx";
 import { toViewModel } from "./ui/feature-weather-view-model.ts";
 
-export function FutureWeather() {
+export function FutureForecast() {
   const weather = useOpenMeteoData();
   const isMobile = useIsMobile();
   const { date, setDate } = useActiveDate();
@@ -36,7 +36,7 @@ export function FutureWeather() {
 
   return (
     viewModel && (
-      <FeatureWeatherWidget
+      <FeatureForecastWidget
         viewModel={viewModel}
         onDateSelected={onDateSelected}
         activeDate={new Date(date)}

@@ -1,13 +1,13 @@
+import { FeatureForecastItem } from "@features/future-forecast/ui/feature-forecast-item/feature-forecast-item.tsx";
 import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
 import { clsx } from "clsx";
 import { Calendar } from "lucide-react";
 import { memo } from "react";
 
-import { FeatureWeatherItem } from "../feature-weather-item/feature-weather-item.tsx";
 import { FutureWeatherWidgetProps } from "./future-weather-widget-props.ts";
 
-function FeatureWeatherWidgetComponent({
+function FeatureForecastWidgetComponent({
   viewModel,
   onDateSelected,
   activeDate,
@@ -36,7 +36,7 @@ function FeatureWeatherWidgetComponent({
             key={model.date.getTime()}
             onClick={() => onDateSelected(model.date)}
           >
-            <FeatureWeatherItem viewModel={model} />
+            <FeatureForecastItem viewModel={model} />
           </button>
         ))}
       </CardContent>
@@ -44,5 +44,5 @@ function FeatureWeatherWidgetComponent({
   );
 }
 
-export const FeatureWeatherWidget = memo(FeatureWeatherWidgetComponent);
-FeatureWeatherWidget.displayName = "FeatureWeatherWidget";
+export const FeatureForecastWidget = memo(FeatureForecastWidgetComponent);
+FeatureForecastWidget.displayName = "FeatureForecastWidget";
