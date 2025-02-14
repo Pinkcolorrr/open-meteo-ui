@@ -1,5 +1,6 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
 import { useActiveDate } from "@shared/utils/date";
+import { useMergeRequestedStates } from "@shared/utils/resolve-multiple-state.ts";
 import { selectActiveLocation, selectIsUserLocation } from "@store/geo-location";
 import { useAppSelector } from "@store/hooks.ts";
 
@@ -10,18 +11,19 @@ import { toViewModel } from "./ui/current-weather-view-model.ts";
 export function CurrentWeather() {
   const location = useAppSelector(selectActiveLocation);
   const isUserLocation = useAppSelector(selectIsUserLocation);
-  const { data, isLoading } = useOpenMeteoData();
+  const weather = useOpenMeteoData();
   const { date } = useActiveDate();
+  const { isLoading } = useMergeRequestedStates(location, weather);
 
-  if (isLoading || location.status === "loading") {
+  if (isLoading) {
     return <CurrentWeatherItemSkeleton />;
   }
 
   return (
-    data &&
+    weather.data &&
     location.data && (
       <CurrentWeatherItem
-        {...toViewModel(data, location.data.city, isUserLocation, new Date(date))}
+        {...toViewModel(weather.data, location.data.name, isUserLocation, new Date(date))}
       />
     )
   );

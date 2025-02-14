@@ -14,7 +14,8 @@ export const resolveActiveGeoLocation = createAsyncThunk(
       return {
         lat: lat,
         lon: lon,
-        city: response.data.address.city,
+        city:
+          response.data.address.city ?? response.data.address.town ?? response.data.address.road,
         country: response.data.address.country,
         countryCode: response.data.address.country_code,
       };

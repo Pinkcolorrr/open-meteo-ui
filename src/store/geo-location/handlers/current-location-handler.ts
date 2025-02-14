@@ -1,4 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
+import { QueryStatus } from "@reduxjs/toolkit/query";
 import { GeoLocation } from "@shared/utils/geo-location";
 import { PersistentMeta } from "@store/middlewares/persistent-middleware";
 
@@ -14,7 +15,11 @@ export function getCurrentLocationsInitialState(): RequestedValue<GeoLocation> {
       return {
         data: JSON.parse(item),
         error: null,
-        status: "fulfilled",
+        status: QueryStatus.fulfilled,
+        isUninitialized: false,
+        isError: false,
+        isLoading: false,
+        isSuccess: true,
       };
     }
 

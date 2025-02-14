@@ -1,9 +1,14 @@
-import { THandledValueStatus } from "./requested-value-status.ts";
+import { QueryStatus } from "@reduxjs/toolkit/query";
 
 export class RequestedValue<T> {
-  error: string | Error | null = null;
-  status: THandledValueStatus = "uninitialized";
+  error?: string | Error | null;
+  status: QueryStatus = QueryStatus.uninitialized;
   data: T | null = null;
+
+  isLoading: boolean = false;
+  isError: boolean = false;
+  isUninitialized = true;
+  isSuccess = true;
 
   constructor(data?: T) {
     if (data) {
@@ -15,20 +20,36 @@ export class RequestedValue<T> {
       data: this.data,
       error: this.error,
       status: this.status,
+      isLoading: this.isLoading,
+      isError: this.isError,
+      isUninitialized: this.isUninitialized,
+      isSuccess: this.isSuccess,
     };
   }
 
   static setLoading<T>(value: RequestedValue<T>) {
-    value.status = "loading";
+    value.status = QueryStatus.pending;
+    value.isLoading = true;
+    value.isSuccess = false;
+    value.isError = false;
+    value.isUninitialized = false;
   }
 
   static onError<T>(value: RequestedValue<T>, error: Error | string) {
-    value.status = "error";
+    value.status = QueryStatus.rejected;
     value.error = error;
+    value.isError = true;
+    value.isLoading = false;
+    value.isUninitialized = false;
+    value.isSuccess = false;
   }
 
   static onSuccess<T>(value: RequestedValue<T>, data: T) {
-    value.status = "fulfilled";
+    value.status = QueryStatus.fulfilled;
     value.data = data;
+    value.isSuccess = true;
+    value.isLoading = false;
+    value.isError = false;
+    value.isUninitialized = false;
   }
 }

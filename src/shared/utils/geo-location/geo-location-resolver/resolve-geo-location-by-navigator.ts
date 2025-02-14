@@ -21,7 +21,7 @@ export const resolveLocationByNavigator = async (
     return {
       lat: position.coords.latitude,
       lon: position.coords.longitude,
-      city: response.data.address.city,
+      name: response.data.address.city ?? response.data.address.town ?? response.data.address.road,
       country: response.data.address.country,
       countryCode: response.data.address.country_code,
     };

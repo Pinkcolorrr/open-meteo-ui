@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 
 import { LocationItemProps } from "./location-item-props.ts";
 
-export function LocationItem({ country, countryCode, city, title, isActive }: LocationItemProps) {
+export function LocationItem({ country, countryCode, name, title, isActive }: LocationItemProps) {
   return (
     <div
       className={clsx("p-2 bg-gray-300 rounded-lg", {
@@ -11,7 +11,7 @@ export function LocationItem({ country, countryCode, city, title, isActive }: Lo
     >
       {title && <div className={"text-xs uppercase"}>{title}</div>}
       <div>
-        {country} <span className={"uppercase"}>({countryCode})</span>, {city}
+        {country} <span className={"uppercase"}>({countryCode})</span>, {name}
       </div>
     </div>
   );

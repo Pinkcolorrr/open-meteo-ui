@@ -5,4 +5,4 @@ export const RequestedValueStatus = {
   uninitialized: "uninitialized",
 } as const;
 
-export type THandledValueStatus = keyof typeof RequestedValueStatus;
+export type TRequestedValueStatus = keyof typeof RequestedValueStatus;

@@ -14,7 +14,7 @@ export const resolveLocationByIp = async (
     return {
       lat: response.data.lat,
       lon: response.data.lon,
-      city: response.data.city,
+      name: response.data.city ?? response.data.town ?? response.data.road,
       country: response.data.country,
       countryCode: response.data.countryCode,
     };

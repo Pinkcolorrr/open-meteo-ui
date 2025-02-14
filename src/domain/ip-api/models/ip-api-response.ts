@@ -5,6 +5,7 @@ export interface IpApiResponse {
   region: string;
   regionName: string;
   city: string;
+  town: string;
   zip: string;
   lat: number;
   lon: number;
@@ -13,4 +14,5 @@ export interface IpApiResponse {
   org: string;
   as: string;
   query: string;
+  road: string;
 }
