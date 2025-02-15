@@ -1,4 +1,3 @@
-import { TodayForecastViewModel } from "@features/today-forecast/ui/today-forecast-view-model.ts";
 import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
 import { clsx } from "clsx";
@@ -6,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 
 import { TodayForecastHourItem } from "./today-forecast-hour-item";
+import { TodayForecastViewModel } from "./today-forecast-view-model.ts";
 
 export function TodayForecastWidget({ viewModel }: { viewModel: TodayForecastViewModel[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);

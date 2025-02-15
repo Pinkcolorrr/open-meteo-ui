@@ -1,9 +1,10 @@
-import { FeatureWeatherItemProps } from "@features/future-forecast/ui/feature-forecast-item/feature-weather-item-props.ts";
 import { useWeatherCondition } from "@shared/hooks/resolve-weather-conditions.ts";
 import { Temperature } from "@shared/ui/temperature";
 import { clsx } from "clsx";
 import { Minus, Thermometer } from "lucide-react";
 import { memo } from "react";
+
+import { FeatureWeatherItemProps } from "./feature-weather-item-props.ts";
 
 function FeatureForecastItemComponent({ viewModel }: FeatureWeatherItemProps) {
   const { Icon, condition } = useWeatherCondition({

@@ -1,11 +1,11 @@
 import { useOpenMeteoData } from "@domain/open-meteo";
-import { FeatureForecastWidget } from "@features/future-forecast/ui/feature-forecast-card/feature-forecast-widget.tsx";
 import { useActiveDate } from "@shared/date";
 import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Skeleton } from "@shared/ui/skeleton.tsx";
 import { clsx } from "clsx";
 import { useCallback, useMemo } from "react";
 
+import { FeatureForecastWidget } from "./ui/feature-forecast-card/feature-forecast-widget.tsx";
 import { toViewModel } from "./ui/feature-weather-view-model.ts";
 
 export function FutureForecast() {

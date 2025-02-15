@@ -1,4 +1,4 @@
-import { LocationViewModelItem } from "@features/location-select/ui/location-view-model.ts";
+import { LocationViewModelItem } from "../location-view-model.ts";
 
 export interface LocationListProps {
   viewModel: LocationViewModelItem[];

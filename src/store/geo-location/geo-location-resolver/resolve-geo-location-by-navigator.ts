@@ -1,6 +1,6 @@
 import { osmApi, resolveOsmDisplayName } from "@domain/osm";
 import { GeoLocation } from "@shared/geo-location";
-import { getCurrentPositionAsync } from "@shared/utils/async-navigator-geolocation.ts";
+import { getCurrentPositionAsync } from "@shared/utils/get-current-position-async.ts";
 import { AppDispatch } from "@store/store.ts";
 
 export const resolveLocationByNavigator = async (

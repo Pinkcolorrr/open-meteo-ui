@@ -1,11 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  createGeoLocationResolver,
-  GeoLocation,
-  TGeoLocationResolveStrategy,
-} from "@shared/geo-location";
+import { GeoLocation } from "@shared/geo-location";
 
 import { AppDispatch, RootState } from "../../store.ts";
+import { createGeoLocationResolver, TGeoLocationResolveStrategy } from "../geo-location-resolver";
 
 export const resolveCurrentGeoLocation = createAsyncThunk<
   GeoLocation,

@@ -1,10 +1,10 @@
-import { FeatureForecastItem } from "@features/future-forecast/ui/feature-forecast-item/feature-forecast-item.tsx";
 import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
 import { clsx } from "clsx";
 import { Calendar } from "lucide-react";
 import { memo } from "react";
 
+import { FeatureForecastItem } from "../feature-forecast-item/feature-forecast-item.tsx";
 import { FutureWeatherWidgetProps } from "./future-weather-widget-props.ts";
 
 function FeatureForecastWidgetComponent({
