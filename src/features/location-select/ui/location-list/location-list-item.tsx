@@ -1,3 +1,4 @@
+import { Spinner } from "@shared/ui/spinner.tsx";
 import { Clock } from "lucide-react";
 import { memo } from "react";
 
@@ -11,15 +12,23 @@ function LocationListItemComponent(params: LocationViewModelItem) {
   }).format(new Date());
 
   return (
-    <div className={"flex justify-between items-center"}>
-      <div>
-        <div>
+    <div className={"flex justify-between items-center gap-3"}>
+      <div className={"whitespace-nowrap overflow-hidden shrink-1"}>
+        <div
+          className={"truncate"}
+          title={`${params.country} (${params.countryCode}) ${params.name}`}
+        >
           {params.country} ({params.countryCode}), {params.name}
         </div>
         <div className={"flex gap-1 items-center text-xs"}>
           {params.timezone} - {time} <Clock className={"size-3"} />
         </div>
       </div>
+      {params.isLoading && (
+        <div className={"shrink-0"}>
+          <Spinner size={"small"} />
+        </div>
+      )}
     </div>
   );
 }

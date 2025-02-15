@@ -1,5 +1,5 @@
 import { compareLocations } from "@shared/geo-location";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../lib/hooks.ts";
@@ -18,7 +18,6 @@ export function ActiveGeoLocationHandler() {
   const [dataSource, setDataSource] = useState<currentDataSource | paramsDataSource | null>(null);
   const lat = params.has("lat") && Number(params.get("lat"));
   const lon = params.has("lon") && Number(params.get("lon"));
-  const abortControllerRef = useRef<AbortController | null>(null);
 
   const resolveActiveLocation = async (source: currentDataSource | paramsDataSource) => {
     if (source.includes("params") && lat && lon) {
@@ -30,13 +29,7 @@ export function ActiveGeoLocationHandler() {
         dispatch(setActiveLocation(persistLocation));
         return;
       }
-
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-      abortControllerRef.current = new AbortController();
-      const signal = abortControllerRef.current.signal;
-      dispatch(resolveActiveGeoLocation({ lat, lon, signal }));
+      dispatch(resolveActiveGeoLocation({ lat, lon }));
       return;
     }
 

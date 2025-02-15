@@ -7,15 +7,14 @@ export const osmApi = createApi({
   reducerPath: "osm",
   baseQuery: fetchBaseQuery({ baseUrl: "https://nominatim.openstreetmap.org" }),
   endpoints: (builder) => ({
-    getReverseGeo: builder.query<OsmReverseGeoResponse, { signal?: AbortSignal } & Coords>({
-      query: ({ lat, lon, signal }) => ({
+    getReverseGeo: builder.query<OsmReverseGeoResponse, Coords>({
+      query: ({ lat, lon }) => ({
         url: "/reverse",
         params: {
           format: "json",
           lon,
           lat,
         },
-        signal,
       }),
     }),
   }),

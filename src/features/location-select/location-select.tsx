@@ -1,9 +1,11 @@
 import { openMeteoGeoApi, OpenMeteoGeoResponse } from "@domain/open-meteo";
 import { useDebounceValue } from "@shared/hooks/use-debounce-value.tsx";
 import { Input } from "@shared/ui/input.tsx";
+import { selectActiveLocation } from "@store/geo-location";
+import { useAppSelector } from "@store/lib/hooks.ts";
 import { Frown } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 
 import { LocationList } from "./ui/location-list/location-list.tsx";
 import { SkeletonLocationList } from "./ui/location-list/skeleton-location-list.tsx";
@@ -15,9 +17,20 @@ export function LocationSelect() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounceValue<string>(query);
+  const activeLocation = useAppSelector(selectActiveLocation);
+  const [params] = useSearchParams();
+  const lat = params.has("lat") && Number(params.get("lat"));
+  const lon = params.has("lon") && Number(params.get("lon"));
   const viewModel = useMemo(
-    () => (searchResults?.results ? toViewModel(searchResults?.results) : []),
-    [searchResults],
+    () =>
+      searchResults?.results
+        ? toViewModel(
+            searchResults?.results,
+            activeLocation.isLoading,
+            lat && lon ? { lat, lon } : null,
+          )
+        : [],
+    [searchResults, lat, lon, activeLocation.isLoading],
   );
 
   useEffect(() => {

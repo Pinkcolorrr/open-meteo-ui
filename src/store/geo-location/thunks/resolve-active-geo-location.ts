@@ -6,11 +6,11 @@ import { AppDispatch, RootState } from "../../store.ts";
 
 export const resolveActiveGeoLocation = createAsyncThunk<
   GeoLocation,
-  { signal?: AbortSignal } & Coords,
+  Coords,
   { dispatch: AppDispatch; state: RootState }
->("geoLocation/resolveActive", async ({ lat, lon, signal }, { dispatch, rejectWithValue }) => {
+>("geoLocation/resolveActive", async ({ lat, lon }, { dispatch, rejectWithValue }) => {
   try {
-    const response = await dispatch(osmApi.endpoints.getReverseGeo.initiate({ lat, lon, signal }));
+    const response = await dispatch(osmApi.endpoints.getReverseGeo.initiate({ lat, lon }));
 
     if ("error" in response) throw response.error;
     if (!response.data) return rejectWithValue("Unable to resolve active location");
