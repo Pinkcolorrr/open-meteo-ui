@@ -18,7 +18,7 @@ export function CurrentWeather() {
       weather.data && location.data
         ? toViewModel(weather.data, location.data.name, isUserLocation, new Date(date))
         : null,
-    [weather.data, location.data?.name, isUserLocation, date],
+    [weather.data, location.data, isUserLocation, date],
   );
 
   if (weather.isLoading) {

@@ -21,7 +21,7 @@ export function FutureForecast() {
     (date: Date) => {
       setDate(date.getTime());
     },
-    [date],
+    [setDate],
   );
 
   if (weather.isLoading) {

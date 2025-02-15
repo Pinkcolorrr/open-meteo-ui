@@ -26,7 +26,7 @@ export function useOpenMeteoData(): RequestedValue<
         ...OPEN_METEO_API_VARIABLES,
       });
     }
-  }, [location.data?.lon, location.data?.lat]);
+  }, [location.data?.lon, location.data?.lat, getForecast]);
 
   return {
     ...params,
