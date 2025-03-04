@@ -5,7 +5,7 @@ import { AppDispatch } from "@store/store.ts";
 
 export const resolveLocationByNavigator = async (
   dispatch: AppDispatch,
-): Promise<GeoLocation | undefined> => {
+): Promise<GeoLocation | null> => {
   try {
     const position = await getCurrentPositionAsync();
     const response = await dispatch(
@@ -27,5 +27,6 @@ export const resolveLocationByNavigator = async (
     };
   } catch (error) {
     console.error("Failed while resolving location by navigator", error);
+    return null;
   }
 };

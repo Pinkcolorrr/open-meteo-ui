@@ -2,9 +2,7 @@ import { ipApi } from "@domain/ip-api";
 import { GeoLocation } from "@shared/geo-location";
 import { AppDispatch } from "@store/store.ts";
 
-export const resolveLocationByIp = async (
-  dispatch: AppDispatch,
-): Promise<GeoLocation | undefined> => {
+export const resolveLocationByIp = async (dispatch: AppDispatch): Promise<GeoLocation | null> => {
   try {
     const response = await dispatch(ipApi.endpoints.resolveIp.initiate());
 
@@ -20,5 +18,6 @@ export const resolveLocationByIp = async (
     };
   } catch (error) {
     console.error("Failed while resolving location by IP", error);
+    return null;
   }
 };

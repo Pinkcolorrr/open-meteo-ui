@@ -6,17 +6,17 @@ import { resolveLocationByNavigator } from "./resolve-geo-location-by-navigator.
 
 export class GeoLocationIpFirstResolver extends GeoLocationResolver {
   async resolve(): Promise<GeoLocation | null> {
-    try {
-      const ipLocation = await resolveLocationByIp(this.dispatch);
-      if (ipLocation) return ipLocation;
+    const requests = [resolveLocationByIp, resolveLocationByNavigator];
 
-      const fallbackLocation = await resolveLocationByNavigator(this.dispatch);
-      if (fallbackLocation) return fallbackLocation;
-
-      throw new Error("Unable to resolve location");
-    } catch (error) {
-      console.error(error);
-      return null;
+    for (const request of requests) {
+      try {
+        const res = await request(this.dispatch);
+        if (res) return res;
+      } catch (error) {
+        console.error("Unable to resolve location:", error);
+        return null;
+      }
     }
+    return null;
   }
 }

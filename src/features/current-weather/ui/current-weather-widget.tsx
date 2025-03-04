@@ -29,7 +29,11 @@ function CurrentWeatherWidgetComponent({
         <span>{date.toDateString()}</span>
         <span className={"text-2xl font-bold relative pt-3 px-3 mt-1"}>
           {isUserLocation && (
-            <span className={"uppercase text-xs absolute top-0 left-0 right-0 leading-4"}>
+            <span
+              className={
+                "inline-flex justify-center text-center text-nowrap uppercase text-xs absolute top-0 left-0 right-0 leading-4"
+              }
+            >
               current location
             </span>
           )}
