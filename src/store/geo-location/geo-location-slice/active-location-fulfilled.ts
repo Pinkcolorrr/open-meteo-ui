@@ -28,6 +28,10 @@ export const onActiveLocationFulfilled = (
   action: PayloadAction<GeoLocation>,
 ) => {
   RequestedValue.onSuccess(state.activeLocation, action.payload);
+  if (state.activeLocation.data) {
+    document.title = `Weather - ${state.activeLocation.data?.name}`;
+  }
+
   const isAlreadyInRecent = state.recentLocations.find((loc) =>
     compareLocations(loc, action.payload),
   );
