@@ -12,11 +12,11 @@ export const resolveLocationByIp = async (
     if (!response.data) throw new Error("No data in response");
 
     return {
-      lat: response.data.lat,
-      lon: response.data.lon,
+      lat: response.data.latitude,
+      lon: response.data.longitude,
       name: response.data.city ?? response.data.town ?? response.data.village ?? response.data.road,
       country: response.data.country,
-      countryCode: response.data.countryCode,
+      countryCode: response.data.country_code,
     };
   } catch (error) {
     console.error("Failed while resolving location by IP", error);
