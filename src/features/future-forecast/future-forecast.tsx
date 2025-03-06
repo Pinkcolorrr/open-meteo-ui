@@ -4,11 +4,12 @@ import { useIsMobile } from "@shared/hooks/use-mobile.tsx";
 import { Skeleton } from "@shared/ui/skeleton.tsx";
 import { clsx } from "clsx";
 import { useCallback, useMemo } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 import { FeatureForecastWidget } from "./ui/feature-forecast-card/feature-forecast-widget.tsx";
 import { toViewModel } from "./ui/feature-weather-view-model.ts";
 
-export function FutureForecast() {
+function FutureForecastComponent() {
   const weather = useOpenMeteoData();
   const isMobile = useIsMobile();
   const { date, setDate } = useActiveDate();
@@ -42,5 +43,13 @@ export function FutureForecast() {
         activeDate={new Date(date)}
       />
     )
+  );
+}
+
+export function FutureForecast() {
+  return (
+    <ErrorBoundary fallback={null}>
+      <FutureForecastComponent />
+    </ErrorBoundary>
   );
 }

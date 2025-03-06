@@ -6,11 +6,12 @@ import {
   selectRecentLocations,
 } from "@store/geo-location";
 import { useAppSelector } from "@store/lib/hooks.ts";
+import { ErrorBoundary } from "react-error-boundary";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 import { LocationItem } from "./ui/location-item/location-item.tsx";
 
-export function UserLocations() {
+function UserLocationsComponent() {
   const currentLocation = useAppSelector(selectCurrentLocation);
   const actionLocation = useAppSelector(selectActiveLocation);
   const recentLocations = useAppSelector(selectRecentLocations);
@@ -72,5 +73,13 @@ export function UserLocations() {
         </div>
       )}
     </div>
+  );
+}
+
+export function UserLocations() {
+  return (
+    <ErrorBoundary fallback={null}>
+      <UserLocationsComponent />
+    </ErrorBoundary>
   );
 }

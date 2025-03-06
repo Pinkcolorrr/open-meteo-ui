@@ -5,13 +5,14 @@ import { selectActiveLocation } from "@store/geo-location";
 import { useAppSelector } from "@store/lib/hooks.ts";
 import { Frown } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 
 import { LocationList } from "./ui/location-list/location-list.tsx";
 import { SkeletonLocationList } from "./ui/location-list/skeleton-location-list.tsx";
 import { LocationViewModelItem, toViewModel } from "./ui/location-view-model.ts";
 
-export function LocationSelect() {
+export function LocationSelectComponent() {
   const [getLocations, { isFetching }] = openMeteoGeoApi.useLazySearchLocationQuery();
   const [searchResults, setSearchResults] = useState<OpenMeteoGeoResponse | null>(null);
   const navigate = useNavigate();
@@ -84,5 +85,13 @@ export function LocationSelect() {
         onInput={(event) => setQuery(event.currentTarget.value)}
       />
     </div>
+  );
+}
+
+export function LocationSelect() {
+  return (
+    <ErrorBoundary fallback={null}>
+      <LocationSelectComponent />
+    </ErrorBoundary>
   );
 }
